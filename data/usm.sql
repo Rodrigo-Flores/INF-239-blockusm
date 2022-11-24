@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-11-2022 a las 19:46:19
+-- Tiempo de generación: 24-11-2022 a las 20:08:13
 -- Versión del servidor: 10.4.25-MariaDB
 -- Versión de PHP: 8.1.10
 
@@ -551,6 +551,41 @@ INSERT INTO `peliculas` (`index`, `id`, `original_language`, `original_title`, `
 (496, 336843, 'en', 'Maze Runner: The Death Cure', 84.838, '2018-01-10', 7.1, 6056, '[\'Science Fiction\', \'Action\', \'Adventure\', \'Thriller\']', 'Thomas leads his group of escaped Gladers on their final and most dangerous mission yet. To save their friends, they must break into the legendary Last City, a WCKD-controlled labyrinth that may turn out to be the deadliest maze of all. Anyone who makes i', 288175335, 143, 'The end will be WCKD'),
 (497, 72105, 'en', 'Ted', 101.173, '2012-06-29', 6.4, 10151, '[\'Comedy\', \'Fantasy\']', 'John Bennett, a man whose childhood wish of bringing his teddy bear to life came true, now must decide between keeping the relationship with the bear or his girlfriend, Lori.', 549368315, 107, 'Ted is coming.'),
 (498, 11224, 'en', 'Cinderella', 92.807, '1950-02-22', 7, 5389, '[\'Family\', \'Fantasy\', \'Animation\', \'Romance\']', 'Cinderella has faith her dreams of a better life will come true. With help from her loyal mice friends and a wave of her Fairy Godmother\'s wand, Cinderella\'s rags are magically turned into a glorious gown and off she goes to the Royal Ball. But when the c', 263591415, 74, 'The greatest love story ever told.');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `Usuario` varchar(255) NOT NULL,
+  `Nombre_com` varchar(255) NOT NULL,
+  `Contraseña` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`Usuario`, `Nombre_com`, `Contraseña`) VALUES
+('Badvibes', 'Allan Manriquez', '1234'),
+('ignacio', 'ignacio', 'ignacio'),
+('pepita', 'pepito', 'pepitopepita'),
+('pinkyig', 'Alejandro Rojo', '123'),
+('sergiofreire', 'belen ampuero', 'belen123'),
+('sexo123', 'Alejandro Rojas', 'sex123'),
+('sus', 'eo', '123');
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`Usuario`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -36,6 +36,10 @@
         <form action="Home.php" method="post">
             <div class="search-box">
                 <input class="search-txt" type="text" name="search" placeholder="Buscar">
+                <select name="tipo" class="search-txt">
+                    <option value="peliculas">Peliculas</option>
+                    <option value="usuarios">Usuarios</option>
+                </select>
                 <button class="search-btn" type="submit" name="submit-search">
                     <i class="fas fa-search"></i>
                 </button>
@@ -48,30 +52,49 @@
     <div class="container-menu">
         <div class="cont-menu">
             <nav>
+                <a href="../Usuario/Perfil_main.php">Ver Perfil</a>
                 <a href="../InicioyRegistro/Cerrar_Sesion.php">Cerrar Sesion</a>
             </nav>
             <label for="btn-menu">✖️</label>
         </div>
     </div>
 
+    <!--select by cases in select value peliculas or Usuarios-->
     <?php
     include("../InicioyRegistro/conexion.php");
-    $query = "SELECT * FROM peliculas WHERE original_title LIKE '%" . $_POST['search'] . "%'";
-    $result = mysqli_query($conexion, $query);
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_array($result)) {
-    ?>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">
-                <?php echo $row["original_title"]; ?>
-            </h5>
-            <p class="card-text">
-                <?php echo $row["overview"]; ?>
-            </p>
-        </div>
-    </div>
-    <?php
+    if (isset($_POST["tipo"])) {
+        if ($_POST["tipo"] == "peliculas") {
+            $sql = "SELECT * FROM peliculas WHERE nombre LIKE '%{$_POST['search']}%'";
+            $result = mysqli_query($conn, $sql);
+            $queryResult = mysqli_num_rows($result);
+            if ($queryResult > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<div class='card'>
+                    <div class='container'>
+                        <h4><b>{$row['original_title']}</b></h4>
+                        <p>{$row['overview']}</p>
+                    </div>
+                </div>";
+                }
+            } else {
+                echo "No hay resultados";
+            }
+        } else {
+            $sql = "SELECT * FROM usuarios WHERE nombre LIKE '%{$_POST['search']}%'";
+            $result = mysqli_query($conn, $sql);
+            $queryResult = mysqli_num_rows($result);
+            if ($queryResult > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<div class='card'>
+                    <div class='container'>
+                        <h4><b>{$row['nombre']}</b></h4>
+                        <p>{$row['email']}</p>
+                    </div>
+                </div>";
+                }
+            } else {
+                echo "No hay resultados";
+            }
         }
     }
     ?>

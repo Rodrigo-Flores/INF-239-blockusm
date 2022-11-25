@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-11-2022 a las 20:08:42
+-- Tiempo de generación: 25-11-2022 a las 22:22:49
 -- Versión del servidor: 10.4.25-MariaDB
 -- Versión de PHP: 8.1.10
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `usm`
+-- Base de datos: `blockusm`
 --
 
 -- --------------------------------------------------------
@@ -28,23 +28,21 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `usuarios` (
-  `Usuario` varchar(255) NOT NULL,
-  `Nombre_com` varchar(255) NOT NULL,
-  `Contraseña` varchar(255) NOT NULL
+  `user_name` varchar(50) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `saldo` int(11) NOT NULL DEFAULT 500,
+  `seguidores` int(11) NOT NULL DEFAULT 0,
+  `seguidos` int(11) NOT NULL DEFAULT 0,
+  `descripcion` varchar(100) NOT NULL DEFAULT 'Sin descripción',
+  `password` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`Usuario`, `Nombre_com`, `Contraseña`) VALUES
-('Badvibes', 'Allan Manriquez', '1234'),
-('ignacio', 'ignacio', 'ignacio'),
-('pepita', 'pepito', 'pepitopepita'),
-('pinkyig', 'Alejandro Rojo', '123'),
-('sergiofreire', 'belen ampuero', 'belen123'),
-('sexo123', 'Alejandro Rojas', 'sex123'),
-('sus', 'eo', '123');
+INSERT INTO `usuarios` (`user_name`, `nombre`, `saldo`, `seguidores`, `seguidos`, `descripcion`, `password`) VALUES
+('rodrigo', 'Rodrigo Flores', 500, 0, 0, 'sus', '123');
 
 --
 -- Índices para tablas volcadas
@@ -54,7 +52,7 @@ INSERT INTO `usuarios` (`Usuario`, `Nombre_com`, `Contraseña`) VALUES
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`Usuario`);
+  ADD PRIMARY KEY (`nombre`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -36,7 +36,7 @@ session_start();
 
   <!--Menu de usuario-->
   <input type="checkbox" id="btn-menu">
-  <div class="container-menu">
+  <div class="container-menu" style="z-index: 1">
     <div class="cont-menu">
       <nav>
         <a href="Perfil_main.php">Ver Perfil </a>
@@ -63,27 +63,29 @@ session_start();
   </ul>
 
   <!--center div with bootstrap-->
-  <div class="container">
+  <div class="container col-3">
     <!--- show user as a bootstrap card-->
-    <div class="card">
-      <img class="card-img-top" src="../../assets/images/user_icon.jpeg" style="height: em; width: 7em;" alt="Card image cap">
+    <div class="card" style="z-index: 0;">
+      <img class="card-img-top mx-auto mt-1" src="../../assets/images/user_icon.jpeg" style="height: em; width: 7em;"
+        alt="Card image cap">
       <div class="card-body">
         <h5 class="card-title
         ">Informacion del perfil</h5>
-        <p class="card-text">Nombre: <?php echo $_SESSION['Nombre_com']; ?></p>
-        <p class="card-text">Usuario: <?php echo $_SESSION['Usuario']; ?></p>
-        <p class="card-text">Seguidores: ></p>
-        <p class="card-text">Seguidos: ></p>
-  </div>
-  <!-- ------- -->
-
-
-
-
-
-
-
-
+        <p class="card-text">Nombre:
+          <?php echo $_SESSION['nombre']; ?>
+        </p>
+        <p class="card-text">Nombre de Usuario:
+          <?php echo $_SESSION['user_name']; ?>
+        </p>
+        <p class="card-text">Seguidores:
+          <?php echo $_SESSION['seguidores']; ?>
+        </p>
+        <p class="card-text">Seguidos:
+          <?php echo $_SESSION['seguidos']; ?>
+        </p>
+        <p class="card-text">Descripcion:
+          <?php echo $_SESSION['descripcion']; ?>
+      </div>
 
 </body>
 

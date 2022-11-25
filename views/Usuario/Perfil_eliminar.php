@@ -35,7 +35,7 @@ session_start();
     <h3>
       <!-- Nombre de la sesion activa-->
       <?php
-        echo "Hola !! " . $_SESSION['Usuario'];
+        echo "Hola !! " . $_SESSION['user_name'];
 
         ?>
     </h3>
@@ -52,6 +52,7 @@ session_start();
         <a href="../InicioyRegistro/Cerrar_Sesion.php">Cerrar Sesion</a>
 
       </nav>
+      <label for="btn-menu">✖️</label>
     </div>
   </div>
 

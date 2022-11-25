@@ -2,17 +2,20 @@
 
 session_start();
 include('../InicioyRegistro/conexion.php');
-$nuevo_usuario= $_POST['Usuario'];
+$nuevo_usuario= $_POST['user_name'];
 $nuevo_nombre= $_POST['nombre'];
-$nueva_contraseña = $_POST['Clave'];
+$nueva_contraseña = $_POST['password'];
+$nuevo_seguidos = $_SESSION['seguidos'];
+$nuevo_seguidores = $_SESSION['seguidores'];
+$nuevo_descripcion = $_POST['descripcion'];
 
 if (! empty($nuevo_usuario)){
 
-    $id= $_SESSION['Usuario'];
-    $_SESSION['Usuario'] = $nuevo_usuario;
-    $newid = $_SESSION['Usuario'];
+    $id= $_SESSION['user_name'];
+    $_SESSION['user_name'] = $nuevo_usuario;
+    $newid = $_SESSION['user_name'];
 
-    $consulta="UPDATE usuarios SET Usuario='$newid' WHERE Usuario ='$id'";
+    $consulta="UPDATE usuarios SET user_name='$newid' WHERE user_name ='$id'";
     $resultado = mysqli_query($conexion,$consulta);
     header("location: Perfil_main.php");
 }
@@ -21,26 +24,58 @@ if (! empty($nuevo_usuario)){
 
 if (! empty($nuevo_nombre)){
 
-    $id= $_SESSION['Usuario'];
-    $_SESSION['Nombre_com'] = $nuevo_nombre;
-    $newid = $_SESSION['Nombre_com'];
+    $id= $_SESSION['user_name'];
+    $_SESSION['nombre'] = $nuevo_nombre;
+    $newid = $_SESSION['nombre'];
 
-    $consulta="UPDATE usuarios SET Nombre_com='$newid' WHERE Usuario ='$id'";
+    $consulta="UPDATE usuarios SET nombre='$newid' WHERE user_name ='$id'";
     $resultado = mysqli_query($conexion,$consulta);
     header("location: Perfil_main.php");
 }
 
 if (! empty($nueva_contraseña)){
 
-    $id= $_SESSION['Usuario'];
-    $_SESSION['Contraseña'] = $nueva_contraseña;
-    $newid = $_SESSION['Contraseña'];
+    $id= $_SESSION['user_name'];
+    $_SESSION['password'] = $nueva_contraseña;
+    $newid = $_SESSION['password'];
 
-    $consulta="UPDATE usuarios SET Contraseña='$newid' WHERE Usuario ='$id'";
+    $consulta="UPDATE usuarios SET password='$newid' WHERE user_name ='$id'";
     $resultado = mysqli_query($conexion,$consulta);
     header("location: Perfil_main.php");
 }
-    
+
+if (! empty($nuevo_seguidos)){
+
+    $id= $_SESSION['user_name'];
+    $_SESSION['seguidos'] = $nuevo_seguidos;
+    $newid = $_SESSION['seguidos'];
+
+    $consulta="UPDATE usuarios SET seguidos='$newid' WHERE user_name ='$id'";
+    $resultado = mysqli_query($conexion,$consulta);
+    header("location: Perfil_main.php");
+}
+
+if (! empty($nuevo_seguidores)){
+
+    $id= $_SESSION['user_name'];
+    $_SESSION['seguidores'] = $nuevo_seguidores;
+    $newid = $_SESSION['seguidores'];
+
+    $consulta="UPDATE usuarios SET seguidores='$newid' WHERE user_name ='$id'";
+    $resultado = mysqli_query($conexion,$consulta);
+    header("location: Perfil_main.php");
+}
+
+if (! empty($nuevo_descripcion)){
+
+    $id= $_SESSION['user_name'];
+    $_SESSION['descripcion'] = $nuevo_descripcion;
+    $newid = $_SESSION['descripcion'];
+
+    $consulta="UPDATE usuarios SET descripcion='$newid' WHERE user_name ='$id'";
+    $resultado = mysqli_query($conexion,$consulta);
+    header("location: Perfil_main.php");
+}
 
 
 

@@ -37,7 +37,7 @@ session_start();
         <h3>
             <!-- Nombre de la sesion activa-->
             <?php
-        echo "Hola !! " . $_SESSION['Usuario'];
+        echo "Hola !! " . $_SESSION['user_name'];
 
         ?>
         </h3>
@@ -54,6 +54,7 @@ session_start();
                 <a href="../InicioyRegistro/Cerrar_Sesion.php">Cerrar Sesion</a>
 
             </nav>
+            <label for="btn-menu">✖️</label>
         </div>
     </div>
 
@@ -85,15 +86,18 @@ session_start();
                     <form action="edicion.php" method="POST">
                         <h1>Editar perfil</h1>
                         <label>Nombre de usuario</label>
-                        <input type="text" name="Usuario" placeholder="<?php echo $_SESSION['Usuario'] ?>">
+                        <input type="text" name="user_name" placeholder="<?php echo $_SESSION['user_name'] ?>">
 
                         <label>Nombre completo</label>
-                        <input type="text" name="nombre" placeholder="<?php echo $_SESSION['Nombre_com'] ?>">
+                        <input type="text" name="nombre" placeholder="<?php echo $_SESSION['nombre'] ?>">
 
 
-                        <label>Contraseña</label>
-                        <input type="text" name=Clave placeholder="<?php echo $_SESSION['Contraseña'] ?>">
+                        <label>password</label>
+                        <input type="text" name="password" placeholder="<?php echo $_SESSION['password'] ?>">
 
+                        <label>Descripción</label>
+                        <input type="text" name="descripcion" placeholder="<?php echo $_SESSION['descripcion'] ?>">
+                        
                         <button type="submit">Guardar cambios </button>
 
                     </form>

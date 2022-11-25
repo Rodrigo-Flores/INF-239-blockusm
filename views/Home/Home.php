@@ -38,7 +38,7 @@
                 <input class="search-txt" type="text" name="search" placeholder="Buscar">
                 <select name="tipo" class="search-txt">
                     <option value="peliculas">Peliculas</option>
-                    <option value="usuarios">Usuarios</option>
+                    <option value="usuarios">user_names</option>
                 </select>
                 <button class="search-btn" type="submit" name="submit-search">
                     <i class="fas fa-search"></i>
@@ -59,7 +59,7 @@
         </div>
     </div>
 
-    <!--select by cases in select value peliculas or Usuarios-->
+    <!--select by cases in select value peliculas or user_names-->
     <?php
     include("../InicioyRegistro/conexion.php");
     if (isset($_POST["tipo"])) {
@@ -84,15 +84,15 @@
                 }
             }
         } else {
-            $query = "SELECT * FROM usuarios WHERE Usuario LIKE '%{$_POST['search']}%' OR Nombre_com LIKE '%{$_POST['search']}%'";
+            $query = "SELECT * FROM usuarios WHERE user_name LIKE '%{$_POST['search']}%' OR nombre LIKE '%{$_POST['search']}%'";
             $result = mysqli_query($conexion, $query);
             $queryResult = mysqli_num_rows($result);
             if ($queryResult > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo "<div class='card'>
                     <div class='container'>
-                        <h4><b>{$row['Nombre_com']}</b></h4>
-                        <p>{$row['Usuario']}</p>
+                        <h4><b>{$row['nombre']}</b></h4>
+                        <p>{$row['user_name']}</p>
                     </div>
                 </div>";
                 }

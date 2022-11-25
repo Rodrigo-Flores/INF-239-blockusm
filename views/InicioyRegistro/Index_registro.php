@@ -48,9 +48,9 @@
 
 
         <label>Nombre de usuario</label>
-        <input type="text" name="Usuario" placeholder="Nombre a mostrar">
+        <input type="text" name="user_name" placeholder="Nombre a mostrar">
 
-        <label>Contraseña</label>
+        <label>password</label>
         <input type="text" name=Clave placeholder="Clave de usuario">
 
         <button type="submit">Registrarse</button>

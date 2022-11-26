@@ -26,7 +26,7 @@
                 <label for="btn-menu">☰</label>
             </div>
 
-            <img src="../../assets/images/Logo.png" alt="Logo compañia">
+            <a href="home.php"><img src="../../assets/images/Logo.png" alt="Logo compañia"></a>
             <h2 class=nombre-compañia>BlockbUSM</h2>
 
         </div>
@@ -65,23 +65,26 @@
     if (isset($_POST["tipo"])) {
         if ($_POST["tipo"] == "peliculas") {
             include("../InicioyRegistro/conexion.php");
-            $query = "SELECT * FROM peliculas WHERE original_title LIKE '%" . $_POST['search'] . "%'";
+            $query = "SELECT * FROM peliculas WHERE titulo LIKE '%" . $_POST['search'] . "%'";
             $result = mysqli_query($conexion, $query);
             if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_array($result)) {
-            ?>
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <?php echo $row["original_title"]; ?>
-                    </h5>
-                    <p class="card-text">
-                        <?php echo $row["overview"]; ?>
-                    </p>
-                </div>
-            </div>
-            <?php
+    ?>
+    <div class="card" style="width: 35rem;">
+        <img class="card-img-top" src="<?php echo $row["imagen"]; ?>" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">
+                <?php echo $row["titulo"]; ?>
+            </h5>
+            <p class="card-text">
+                <?php echo $row["descripcion"]; ?>
+            </p>
+        </div>
+    </div>
+    <?php
                 }
+            } else {
+                echo "No se encontraron resultados";
             }
         } else {
             $query = "SELECT * FROM usuarios WHERE user_name LIKE '%{$_POST['search']}%' OR nombre LIKE '%{$_POST['search']}%'";

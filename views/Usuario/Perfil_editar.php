@@ -29,7 +29,7 @@ session_start();
                 <label for="btn-menu">☰</label>
             </div>
 
-            <img src="../../assets/images/Logo.png" alt="Logo compañia">
+            <a href="../Home/home.php"><img src="../../assets/images/Logo.png" alt="Logo compañia"></a>
             <h2 class=nombre-compañia>BlockbUSM</h2>
 
         </div>

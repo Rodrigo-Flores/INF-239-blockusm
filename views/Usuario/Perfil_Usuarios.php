@@ -39,9 +39,9 @@
             <label for="btn-menu">✖️</label>
         </div>
     </div>
-
-        <!-- search bar -->
-        <form action="../Home/Home.php" method="post">
+    
+            <!-- search bar -->
+            <form action="../Home/Home.php" method="post">
             <div class="search-box">
                 <input class="search-txt" type="text" name="search" placeholder="Buscar">
                 <select name="tipo" class="search-txt">
@@ -54,8 +54,7 @@
             </div>
         </form>
     </header>
-
-
+    
 
     
 </body>

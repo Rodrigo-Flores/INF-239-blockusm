@@ -71,10 +71,10 @@
                 while ($row = mysqli_fetch_array($result)) {
     ?>
     <div class="card" style="width: 35rem;">
-        <img class="card-img-top" src="<?php echo $row["imagen"]; ?>" alt="Card image cap">
+    <a href="../Peliculas/Perfil_peliculas.php"><img class="card-img-top" src="<?php echo $row["imagen"]; ?>" alt="Card image cap"></a>
         <div class="card-body">
             <h5 class="card-title">
-                <?php echo $row["titulo"]; ?>
+            <a href="../Peliculas/Perfil_peliculas.php" style="text-decoration: none; color: black;"><?php echo $row["titulo"]; ?></a>
             </h5>
             <p class="card-text">
                 <?php echo $row["descripcion"]; ?>
@@ -94,7 +94,7 @@
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo "<div class='card'>
                     <div class='container'>
-                        <h4><b>{$row['nombre']}</b></h4>
+                        <a href='../Usuario/Perfil_Usuarios.php' style='text-decoration: none; color: black;'><h4><b>{$row['nombre']}</b></h4></a>
                         <p>{$row['user_name']}</p>
                     </div>
                 </div>";

@@ -32,7 +32,7 @@
 
         <!--Menu de usuario-->
         <input type="checkbox" id="btn-menu">
-        <div class="container-menu">
+        <div class="container-menu" style="z-index: 1;">
             <div class="cont-menu">
                 <nav>
                     <a href="../Usuario/Perfil_main.php">Ver Perfil</a>
@@ -79,7 +79,7 @@
 -->
     <?php
     include("../InicioyRegistro/conexion.php");
-    $id = $_POST['id'];
+    $id = $_POST['id_pelicula'];
     $query = "SELECT * FROM peliculas WHERE id = $id";
     $result = mysqli_query($conexion, $query);
     if (mysqli_num_rows($result) == 1) {
@@ -99,7 +99,7 @@
         $imagen = $row['imagen'];
     }
     ?>
-    <div class="card p-5">
+    <div class="card p-5" style="z-index: 0;">
         <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
@@ -161,7 +161,8 @@
                 </div>
 
                     <form action="Rentar.php" method="post">
-                        <input type="hidden" name="id" value="<?php echo $id ?>">
+                        <input type="hidden" name="precio" value="<?php echo $precio ?>">
+                        <input type="hidden" name="id_pelicula" value="<?php echo $id ?>">
                         <input type="submit" class="btn btn-primary" name="rentar" value="Rentar">
                     </form>
                 </div>

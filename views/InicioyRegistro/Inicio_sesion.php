@@ -30,6 +30,7 @@ if (isset($_POST['user_name']) && isset($_POST['Clave'])) {
         if (mysqli_num_rows($result) === 1) {
             $row = mysqli_fetch_assoc($result);
             if ($row['user_name'] === $user_name && $row['password'] === $Clave) {
+                $_SESSION['id'] = $row['id'];
                 $_SESSION['user_name'] = $row['user_name'];
                 $_SESSION['nombre'] = $row['nombre'];
                 $_SESSION['password'] = $row['password'];

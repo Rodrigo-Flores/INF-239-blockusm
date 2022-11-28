@@ -1,6 +1,7 @@
 -- Los usuarios cuentan con un nombre, saldo por defecto de 500, n ́umero de seguidores, numero de cuentas seguidas y una descripci ́on personal;
 
 CREATE TABLE usuarios (
+    id INT NOT NULL AUTO_INCREMENT,
     user_name VARCHAR(50) NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     saldo INT NOT NULL DEFAULT 500,
@@ -8,7 +9,7 @@ CREATE TABLE usuarios (
     seguidos INT NOT NULL DEFAULT 0,
     descripcion VARCHAR(100) NOT NULL DEFAULT 'Sin descripción',
     password VARCHAR(100) NOT NULL,
-    PRIMARY KEY (nombre)
+    PRIMARY KEY (id)
 );
 
 -- Las pel ́ıculas cuentan con g ́eneros, descripci ́on, ejemplares;
@@ -55,3 +56,17 @@ INSERT INTO peliculas (titulo, genero, descripcion, ejemplares_disponibles, ejem
 INSERT INTO peliculas (titulo, genero, descripcion, ejemplares_disponibles, ejemplares_totales, publico, duracion, precio, reparto, calificacion_media, veces_rentada, calificacion_media_usmtomatoes, imagen) VALUES ('The Godfather: Part II', 'Crime, Drama', 'The early life and career of Vito Corleone in 1920s New York City is portrayed, while his son, Michael, expands and tightens his grip on the family crime syndicate.', 10, 10, 'R', 202, 1000, 'Al Pacino, Robert De Niro, Robert Duvall', 9, 0, 9, 'https://www.imdb.com/title/tt0071562/mediaviewer/rm1015628032');
 INSERT INTO peliculas (titulo, genero, descripcion, ejemplares_disponibles, ejemplares_totales, publico, duracion, precio, reparto, calificacion_media, veces_rentada, calificacion_media_usmtomatoes, imagen) VALUES ('Bridge of Spies', 'Drama, History, Thriller', 'During the Cold War, an American lawyer is recruited to defend an arrested Soviet spy in court, and then help the CIA facilitate an exchange of the spy for the Soviet captured American U2 spy plane pilot, Francis Gary Powers.', 10, 10, 'PG', 142, 1050, 'Tom Hanks, Mark Rylance, Alan Alda', 9, 0, 9, 'https://www.imdb.com/title/tt3682448/mediaviewer/rm1015628032');
 INSERT INTO peliculas (titulo, genero, descripcion, ejemplares_disponibles, ejemplares_totales, publico, duracion, precio, reparto, calificacion_media, veces_rentada, calificacion_media_usmtomatoes, imagen) VALUES ('The Mole Agent', 'Comedy, Crime, Drama', 'A Chilean detective is sent to a small town in the north of the country to investigate a old woman', 10, 10, 'PG', 100, 1100, 'Maite Alberdi, Sergio Chamy, Romulo Aitken', 9, 0, 9, 'https://www.imdb.com/title/tt11394298/mediaviewer/rm2054660865/?ref_=tt_ov_i');
+
+-- crear tabla de renta de peliculas_rentadas in mysql format phpmyadmin
+CREATE TABLE peliculas_rentadas (
+    id INT NOT NULL AUTO_INCREMENT,
+    id_pelicula INT NOT NULL,
+    id_usuario INT NOT NULL,
+    rentada BOOLEAN NOT NULL DEFAULT 1,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_pelicula) REFERENCES peliculas(id),
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
+);
+
+-- select a pelicula from foreign key from peliculas_rentadas y peliculas
+SELECT peliculas_rentadas.id, peliculas_rentadas.id_pelicula, peliculas_rentadas.id_usuario, peliculas_rentadas.rentada, peliculas.titulo, peliculas.genero, peliculas.descripcion, peliculas.ejemplares_disponibles, peliculas.ejemplares_totales, peliculas.publico, peliculas.duracion, peliculas.precio, peliculas.reparto, peliculas.calificacion_media, peliculas.veces_rentada, peliculas.calificacion_media_usmtomatoes, peliculas.imagen FROM peliculas_rentadas INNER JOIN peliculas ON peliculas_rentadas.id_pelicula = peliculas.id;

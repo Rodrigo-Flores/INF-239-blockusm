@@ -73,8 +73,11 @@
         ?>
         <div class="col-sm-3 p-4">
             <div class="card w-100 h-100 p-2">
-                <a href="../Peliculas/Perfil_peliculas.php"><img class="card-img-top mx-auto d-block"
-                        src="<?php echo $row["imagen"]; ?>" alt="Card image cap"></a>
+                <!-- render a image as form -->
+                <form action="../Peliculas/Perfil_peliculas.php" method="post">
+                    <input type="hidden" name="id_pelicula" value="<?php echo $row['id']; ?>">
+                    <input type="image" src="<?php echo $row['imagen']; ?>" class="card-img-top" alt="...">
+                </form>
                 <div class="card-body">
                     <h5 class="card-title">
                         <a href="../Peliculas/Perfil_peliculas.php" style="text-decoration: none; color: black;">
@@ -85,7 +88,7 @@
                         <?php echo $row["descripcion"]; ?>
                     </p>
                     <form action="../Peliculas/Perfil_peliculas.php" method="post">
-                        <input type="hidden" name="id" value="<?php echo $row["id"]; ?>">
+                        <input type="hidden" name="id_pelicula" value="<?php echo $row["id"]; ?>">
                         <input type="submit" name="detail" class="btn btn-primary" value="Ver Detalles">
                     </form>
                 </div>

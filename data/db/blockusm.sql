@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 27-11-2022 a las 00:10:51
--- Versión del servidor: 10.4.21-MariaDB
--- Versión de PHP: 8.1.6
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 28-11-2022 a las 07:50:27
+-- Versión del servidor: 10.4.25-MariaDB
+-- Versión de PHP: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `Blockbusm`
+-- Base de datos: `blockusm`
 --
 
 -- --------------------------------------------------------
@@ -73,10 +73,33 @@ INSERT INTO `peliculas` (`id`, `titulo`, `genero`, `descripcion`, `ejemplares_di
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `peliculas_rentadas`
+--
+
+CREATE TABLE `peliculas_rentadas` (
+  `id` int(11) NOT NULL,
+  `id_pelicula` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `rentada` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `peliculas_rentadas`
+--
+
+INSERT INTO `peliculas_rentadas` (`id`, `id_pelicula`, `id_usuario`, `rentada`) VALUES
+(1, 3, 1, 1),
+(2, 12, 1, 1),
+(3, 19, 1, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuarios`
 --
 
 CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL,
   `user_name` varchar(50) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `saldo` int(11) NOT NULL DEFAULT 500,
@@ -90,10 +113,8 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`user_name`, `nombre`, `saldo`, `seguidores`, `seguidos`, `descripcion`, `password`) VALUES
-('sexoman', 'alejandro rojo', 500, 0, 0, 'Soy sexoman mucho gusto', '123'),
-('carmen19', 'Carmen abarca', 500, 0, 0, 'hola', '123'),
-('rodrigo', 'Rodrigo Flores', 500, 0, 0, 'sus', '123');
+INSERT INTO `usuarios` (`id`, `user_name`, `nombre`, `saldo`, `seguidores`, `seguidos`, `descripcion`, `password`) VALUES
+(1, 'rodrigo', 'Rodrigo Flores', 500, 0, 0, 'Sin descripción', '123');
 
 --
 -- Índices para tablas volcadas
@@ -106,10 +127,18 @@ ALTER TABLE `peliculas`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `peliculas_rentadas`
+--
+ALTER TABLE `peliculas_rentadas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_pelicula` (`id_pelicula`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`nombre`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -120,6 +149,29 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `peliculas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT de la tabla `peliculas_rentadas`
+--
+ALTER TABLE `peliculas_rentadas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `peliculas_rentadas`
+--
+ALTER TABLE `peliculas_rentadas`
+  ADD CONSTRAINT `peliculas_rentadas_ibfk_1` FOREIGN KEY (`id_pelicula`) REFERENCES `peliculas` (`id`),
+  ADD CONSTRAINT `peliculas_rentadas_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

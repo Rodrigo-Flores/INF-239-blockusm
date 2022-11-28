@@ -60,51 +60,62 @@
     </div>
 
     <!--select by cases in select value peliculas or user_names-->
-    <?php
-    include("../InicioyRegistro/conexion.php");
-    if (isset($_POST["tipo"])) {
-        if ($_POST["tipo"] == "peliculas") {
-            include("../InicioyRegistro/conexion.php");
-            $query = "SELECT * FROM peliculas WHERE titulo LIKE '%" . $_POST['search'] . "%'";
-            $result = mysqli_query($conexion, $query);
-            if (mysqli_num_rows($result) > 0) {
-                while ($row = mysqli_fetch_array($result)) {
-    ?>
-    <div class="card" style="width: 35rem;">
-    <a href="../Peliculas/Perfil_peliculas.php"><img class="card-img-top" src="<?php echo $row["imagen"]; ?>" alt="Card image cap"></a>
-        <div class="card-body">
-            <h5 class="card-title">
-            <a href="../Peliculas/Perfil_peliculas.php" style="text-decoration: none; color: black;"><?php echo $row["titulo"]; ?></a>
-            </h5>
-            <p class="card-text">
-                <?php echo $row["descripcion"]; ?>
-            </p>
+    <div class="row p-5">
+        <?php
+        include("../InicioyRegistro/conexion.php");
+        if (isset($_POST["tipo"])) {
+            if ($_POST["tipo"] == "peliculas") {
+                include("../InicioyRegistro/conexion.php");
+                $query = "SELECT * FROM peliculas WHERE titulo LIKE '%" . $_POST['search'] . "%'";
+                $result = mysqli_query($conexion, $query);
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_array($result)) {
+        ?>
+        <div class="col-sm-3 p-4">
+            <div class="card w-100 h-100 p-2">
+                <a href="../Peliculas/Perfil_peliculas.php"><img class="card-img-top mx-auto d-block"
+                        src="<?php echo $row["imagen"]; ?>" alt="Card image cap"></a>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="../Peliculas/Perfil_peliculas.php" style="text-decoration: none; color: black;">
+                            <?php echo $row["titulo"]; ?>
+                        </a>
+                    </h5>
+                    <p class="card-text">
+                        <?php echo $row["descripcion"]; ?>
+                    </p>
+                    <form action="../Peliculas/Perfil_peliculas.php" method="post">
+                        <input type="hidden" name="id" value="<?php echo $row["id"]; ?>">
+                        <input type="submit" name="detail" class="btn btn-primary" value="Ver Detalles">
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
-    <?php
+        <?php
+                    }
+                } else {
+                    echo "No se encontraron resultados";
                 }
             } else {
-                echo "No se encontraron resultados";
-            }
-        } else {
-            $query = "SELECT * FROM usuarios WHERE user_name LIKE '%{$_POST['search']}%' OR nombre LIKE '%{$_POST['search']}%'";
-            $result = mysqli_query($conexion, $query);
-            $queryResult = mysqli_num_rows($result);
-            if ($queryResult > 0) {
-                while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<div class='card'>
+                $query = "SELECT * FROM usuarios WHERE user_name LIKE '%{$_POST['search']}%' OR nombre LIKE '%{$_POST['search']}%'";
+                $result = mysqli_query($conexion, $query);
+                $queryResult = mysqli_num_rows($result);
+                if ($queryResult > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<div class='card'>
                     <div class='container'>
                         <a href='../Usuario/Perfil_Usuarios.php' style='text-decoration: none; color: black;'><h4><b>{$row['nombre']}</b></h4></a>
                         <p>{$row['user_name']}</p>
                     </div>
                 </div>";
+                    }
+                } else {
+                    echo "No hay resultados";
                 }
-            } else {
-                echo "No hay resultados";
             }
         }
-    }
-    ?>
+        ?>
+    </div>
 
     <!-- refactor this piece of code to get tops movies -->
     <?php

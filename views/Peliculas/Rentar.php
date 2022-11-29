@@ -67,9 +67,27 @@ session_start();
         $id_pelicula = $_POST['id_pelicula'];
         $id_usuario = $_SESSION['id'];
         $precio = $_POST['precio'];
+        
+        //if id_pelicula and id_usuario exist in the database add 1 to the rentada
+        $sql = "SELECT * FROM peliculas_rentadas WHERE id_pelicula = '$id_pelicula' AND id_usuario = '$id_usuario'";
+        $result = mysqli_query($conexion, $sql);
+        $resultCheck = mysqli_num_rows($result);
+        if ($resultCheck > 0) {
+            $sql = "UPDATE peliculas_rentadas SET rentada = rentada + 1 WHERE id_pelicula = '$id_pelicula' AND id_usuario = '$id_usuario'";
+            $result = mysqli_query($conexion, $sql);
+        } else {
+            $sql = "INSERT INTO peliculas_rentadas (id_pelicula, id_usuario, rentada) VALUES ('$id_pelicula', '$id_usuario', 1)";
+            $result = mysqli_query($conexion, $sql);
+        } 
+    
 
-        $query = "INSERT INTO peliculas_rentadas (id_pelicula, id_usuario) VALUES ('$id_pelicula', '$id_usuario')";
-        $result = mysqli_query($conexion, $query);
+        // Actualizar ejemplares disponibles
+        $query2 = "UPDATE peliculas SET ejemplares_disponibles = ejemplares_disponibles - 1 WHERE id = '$id_pelicula'";
+        $result2 = mysqli_query($conexion, $query2);
+        //Actualizar veces rentada +1
+        $query3 = "UPDATE peliculas SET veces_rentada = veces_rentada + 1 WHERE id = '$id_pelicula'";
+        $result3 = mysqli_query($conexion, $query3);
+
         if (!$result) {
             die("Query Failed.");
         }

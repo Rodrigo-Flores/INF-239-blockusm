@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Perfil Pelicula</title>
+    <title>Seguidos</title>
 </head>
 
 <body>
@@ -30,20 +30,9 @@
 
         </div>
 
-        <!--Menu de usuario-->
-        <input type="checkbox" id="btn-menu">
-        <div class="container-menu">
-            <div class="cont-menu">
-                <nav>
-                    <a href="../Usuario/Perfil_main.php">Ver Perfil</a>
-                    <a href="../InicioyRegistro/Cerrar_Sesion.php">Cerrar Sesion</a>
-                </nav>
-                <label for="btn-menu">✖️</label>
-            </div>
-        </div>
-
+        <!--Barra de busqueda-->
         <!-- search bar -->
-        <form action="../Home/Home.php" method="post">
+        <form action="Home.php" method="post">
             <div class="search-box">
                 <input class="search-txt" type="text" name="search" placeholder="Buscar">
                 <select name="tipo" class="search-txt">
@@ -57,39 +46,62 @@
         </form>
     </header>
 
-    <?php
-    include("../InicioyRegistro/conexion.php");
-    $id = $_POST['id_usuario'];
-    $query = "SELECT * FROM usuarios WHERE id = $id";
-    $result = mysqli_query($conexion, $query);
-    if (mysqli_num_rows($result) == 1) {
-        $row = mysqli_fetch_array($result);
-        $user_name = $row['user_name'];
-        $nombre = $row['nombre'];
-        $seguidores = $row['seguidores'];
-        $seguidos = $row['seguidos'];
-        $descripcion = $row['descripcion'];
-
-    }
-    ?>
-    <div class="container col-3">
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title"><?php echo $user_name?> </h5>
-                <p class="card-text"><?php echo $descripcion?></p>
-            </div>
-            <ul class="list-group list-group-flush">
-            <li class="list-group-item">Nombre: <?php echo $nombre?></li>
-                <li class="list-group-item">Seguidores: <?php echo $seguidores?></li>
-                <li class="list-group-item">Seguidos <?php echo $seguidos?></li>
-            </ul>
-            <form action="Seguir.php" method="post">
-                <input type="hidden" name="user_name" value="<?php echo $user_name ?>">
-                <input type="hidden" name="user_id" value="<?php echo $id ?>">
-                <input type="submit" class="btn btn-primary" name="rentar" value="Seguir">
-            </form>
+    <!--Menu de usuario-->
+    <input type="checkbox" id="btn-menu">
+    <div class="container-menu">
+        <div class="cont-menu">
+            <nav>
+                <a href="../Usuario/Perfil_main.php">Ver Perfil</a>
+                <a href="../InicioyRegistro/Cerrar_Sesion.php">Cerrar Sesion</a>
+            </nav>
+            <label for="btn-menu">✖️</label>
         </div>
     </div>
+
+
+
+    <?php
+    session_start();
+    include("../InicioyRegistro/conexion.php");
+
+
+    //get the seguidos of the sesion user and show them
+    $query = "SELECT * FROM seguidores WHERE id_usuario_seguidor = $_SESSION[id]";
+    $result = mysqli_query($conexion, $query);
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_array($result)) {
+            $query2 = "SELECT * FROM usuarios WHERE id = $row[id_usuario_seguido]";
+            $result2 = mysqli_query($conexion, $query2);
+            if (mysqli_num_rows($result2) == 1) {
+                $row2 = mysqli_fetch_array($result2);
+    ?>
+    <div class="col-sm-3 p-4">
+        <div class="card w-100 h-100 p-2">
+            <!-- render a image as form -->
+            <div class="card-body">
+                <h5 class="card-title">
+                    <?php echo $row2["user_name"]; ?>
+                    </a>
+                </h5>
+                <p class="card-text">
+                    <?php echo $row2["descripcion"]; ?>
+                </p>
+                <form action="../Usuario/Perfil_Usuarios.php" method="post">
+                    <input type="hidden" name="id_usuario" value="<?php echo $row2["id"]; ?>">
+                    <input type="submit" name="detail" class="btn btn-primary" value="Ver Perfil">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <?php
+        } else {
+                echo "No hay resultados";
+            }
+        }
+    }
+
+    ?>
 
 
 

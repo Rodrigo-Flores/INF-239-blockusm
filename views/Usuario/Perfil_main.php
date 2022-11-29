@@ -80,9 +80,9 @@ session_start();
         <p class="card-text">Seguidores:
           <?php echo $_SESSION['seguidores']; ?>
         </p>
-        <p class="card-text">Seguidos:
+        <a href="Perfil_Seguidos.php" style="text-decoration: none; color: black;"><p class="card-text">Seguidos:
           <?php echo $_SESSION['seguidos']; ?>
-        </p>
+        </p></a>
         <p class="card-text">Descripcion:
           <?php echo $_SESSION['descripcion']; ?>
       </div>

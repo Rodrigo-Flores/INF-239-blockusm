@@ -68,5 +68,14 @@ CREATE TABLE peliculas_rentadas (
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );
 
+CREATE TABLE seguidores (
+    id INT NOT NULL AUTO_INCREMENT,
+    id_usuario_seguidor INT NOT NULL,
+    id_usuario_seguido INT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_usuario_seguidor) REFERENCES usuarios(id),
+    FOREIGN KEY (id_usuario_seguido) REFERENCES usuarios(id)
+);
+
 -- select a pelicula from foreign key from peliculas_rentadas y peliculas
 SELECT peliculas_rentadas.id, peliculas_rentadas.id_pelicula, peliculas_rentadas.id_usuario, peliculas_rentadas.rentada, peliculas.titulo, peliculas.genero, peliculas.descripcion, peliculas.ejemplares_disponibles, peliculas.ejemplares_totales, peliculas.publico, peliculas.duracion, peliculas.precio, peliculas.reparto, peliculas.calificacion_media, peliculas.veces_rentada, peliculas.calificacion_media_usmtomatoes, peliculas.imagen FROM peliculas_rentadas INNER JOIN peliculas ON peliculas_rentadas.id_pelicula = peliculas.id;

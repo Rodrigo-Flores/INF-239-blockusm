@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-11-2022 a las 07:50:27
+-- Tiempo de generación: 01-12-2022 a las 04:20:54
 -- Versión del servidor: 10.4.25-MariaDB
 -- Versión de PHP: 8.1.10
 
@@ -95,6 +95,48 @@ INSERT INTO `peliculas_rentadas` (`id`, `id_pelicula`, `id_usuario`, `rentada`) 
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `peliculas_resenias`
+--
+
+CREATE TABLE `peliculas_resenias` (
+  `id` int(11) NOT NULL,
+  `id_pelicula` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `resenia` varchar(5000) DEFAULT NULL,
+  `calificacion` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `peliculas_resenias`
+--
+
+INSERT INTO `peliculas_resenias` (`id`, `id_pelicula`, `id_usuario`, `resenia`, `calificacion`) VALUES
+(1, 1, 2, '', 1),
+(2, 8, 2, 'buena', 5);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `seguidores`
+--
+
+CREATE TABLE `seguidores` (
+  `id` int(11) NOT NULL,
+  `id_usuario_seguidor` int(11) NOT NULL,
+  `id_usuario_seguido` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `seguidores`
+--
+
+INSERT INTO `seguidores` (`id`, `id_usuario_seguidor`, `id_usuario_seguido`) VALUES
+(10, 2, 4),
+(11, 2, 4);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuarios`
 --
 
@@ -114,7 +156,10 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `user_name`, `nombre`, `saldo`, `seguidores`, `seguidos`, `descripcion`, `password`) VALUES
-(1, 'rodrigo', 'Rodrigo Flores', 500, 0, 0, 'Sin descripción', '123');
+(1, 'rodrigo', 'Rodrigo Flores', 500, 0, 0, 'Sin descripción', '123'),
+(2, 'ale', 'Alejandro Rojo', 500, 0, 2, 'Sin descripción', '123'),
+(3, 'sus', 'Sus Susi', 500, 0, 0, 'Sin descripción', '123'),
+(4, 'sopaipa', 'Sopaipilla Completo', 500, 2, 0, 'Sin descripción', '123');
 
 --
 -- Índices para tablas volcadas
@@ -133,6 +178,22 @@ ALTER TABLE `peliculas_rentadas`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_pelicula` (`id_pelicula`),
   ADD KEY `id_usuario` (`id_usuario`);
+
+--
+-- Indices de la tabla `peliculas_resenias`
+--
+ALTER TABLE `peliculas_resenias`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_pelicula` (`id_pelicula`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
+-- Indices de la tabla `seguidores`
+--
+ALTER TABLE `seguidores`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_usuario_seguidor` (`id_usuario_seguidor`),
+  ADD KEY `id_usuario_seguido` (`id_usuario_seguido`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -157,10 +218,22 @@ ALTER TABLE `peliculas_rentadas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de la tabla `peliculas_resenias`
+--
+ALTER TABLE `peliculas_resenias`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `seguidores`
+--
+ALTER TABLE `seguidores`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
@@ -172,6 +245,13 @@ ALTER TABLE `usuarios`
 ALTER TABLE `peliculas_rentadas`
   ADD CONSTRAINT `peliculas_rentadas_ibfk_1` FOREIGN KEY (`id_pelicula`) REFERENCES `peliculas` (`id`),
   ADD CONSTRAINT `peliculas_rentadas_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
+
+--
+-- Filtros para la tabla `peliculas_resenias`
+--
+ALTER TABLE `peliculas_resenias`
+  ADD CONSTRAINT `peliculas_resenias_ibfk_1` FOREIGN KEY (`id_pelicula`) REFERENCES `peliculas` (`id`),
+  ADD CONSTRAINT `peliculas_resenias_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

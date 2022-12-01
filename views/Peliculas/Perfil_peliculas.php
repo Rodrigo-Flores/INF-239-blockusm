@@ -48,7 +48,7 @@
                 <input class="search-txt" type="text" name="search" placeholder="Buscar">
                 <select name="tipo" class="search-txt">
                     <option value="peliculas">Peliculas</option>
-                    <option value="usuarios">user_names</option>
+                    <option value="usuarios">Usuarios</option>
                 </select>
                 <button class="search-btn" type="submit" name="submit-search">
                     <i class="fas fa-search"></i>
@@ -56,27 +56,6 @@
             </div>
         </form>
     </header>
-
-    <!--Creando cuerpo de la pagina to show pelicula data with a query and his id-->
-    <!--
-        CREATE TABLE peliculas (
-    id INT NOT NULL AUTO_INCREMENT,
-    titulo VARCHAR(100) NOT NULL,
-    genero VARCHAR(50) NOT NULL,
-    descripcion VARCHAR(500) NOT NULL,
-    ejemplares_disponibles INT NOT NULL,
-    ejemplares_totales INT NOT NULL,
-    publico VARCHAR(2) NOT NULL,
-    duracion INT NOT NULL,
-    precio INT NOT NULL,
-    reparto VARCHAR(100) NOT NULL,
-    calificacion_media INT NOT NULL,
-    veces_rentada INT NOT NULL,
-    calificacion_media_usmtomatoes INT NOT NULL,
-    imagen VARCHAR(100) NOT NULL,
-    PRIMARY KEY (id)
-);
--->
     <?php
     include("../InicioyRegistro/conexion.php");
     $id = $_POST['id_pelicula'];
@@ -163,7 +142,7 @@
                     <form action="Rentar.php" method="post">
                         <input type="hidden" name="precio" value="<?php echo $precio ?>">
                         <input type="hidden" name="id_pelicula" value="<?php echo $id ?>">
-                        <input type="submit" class="btn btn-primary" name="rentar" value="Rentar">
+                        <input type="submit" class="mt-5 p-3 col-12" name="rentar" value="Rentar">
                     </form>
                 </div>
             </div>

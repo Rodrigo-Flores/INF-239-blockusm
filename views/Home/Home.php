@@ -16,50 +16,81 @@
 
 <body>
 
-        <!--Creando cabezera de la pagina-->
-        <header>
-            <!--Cambiar esto para que al clikear al foto vuelva a la pagina principal-->
-            <div class="Logo">
+    <!--Creando cabezera de la pagina-->
+    <header>
+        <!--Cambiar esto para que al clikear al foto vuelva a la pagina principal-->
+        <div class="Logo">
 
-                <!--Menu de usuario-->
-                <div class="btn-menu">
-                    <label for="btn-menu">☰</label>
-                </div>
-
-                <a href="home.php"><img src="../../assets/images/Logo.png" alt="Logo compañia"></a>
-                <h2 class=nombre-compañia>BlockbUSM</h2>
-
+            <!--Menu de usuario-->
+            <div class="btn-menu">
+                <label for="btn-menu">☰</label>
             </div>
 
-            <!--Barra de busqueda-->
-            <!-- search bar -->
-            <form action="Home.php" method="post">
-                <div class="search-box">
-                    <input class="search-txt" type="text" name="search" placeholder="Buscar">
-                    <select name="tipo" class="search-txt">
-                        <option value="peliculas">Peliculas</option>
-                        <option value="usuarios">user_names</option>
-                    </select>
-                    <button class="search-btn" type="submit" name="submit-search">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </form>
-        </header>
+            <a href="home.php"><img src="../../assets/images/Logo.png" alt="Logo compañia"></a>
+            <h2 class=nombre-compañia>BlockbUSM</h2>
 
-        <!--Menu de usuario-->
-        <input type="checkbox" id="btn-menu">
-        <div class="container-menu">
-            <div class="cont-menu">
-                <nav>
-                    <a href="../Usuario/Perfil_main.php">Ver Perfil</a>
-                    <a href="../InicioyRegistro/Cerrar_Sesion.php">Cerrar Sesion</a>
-                </nav>
-                <label for="btn-menu">✖️</label>
-            </div>
         </div>
 
-    <!--select by cases in select value peliculas or user_names-->
+        <!--Barra de busqueda-->
+        <!-- search bar -->
+        <form action="Home.php" method="post">
+            <div class="search-box">
+                <input class="search-txt" type="text" name="search" placeholder="Buscar">
+                <select name="tipo" class="search-txt">
+                    <option value="peliculas">Peliculas</option>
+                    <option value="usuarios">Usuarios</option>
+                </select>
+                <button class="search-btn" type="submit" name="submit-search">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+    </header>
+
+    <!--Menu de usuario-->
+    <input type="checkbox" id="btn-menu">
+    <div class="container-menu">
+        <div class="cont-menu">
+            <nav>
+                <a href="../Usuario/Perfil_main.php">Ver Perfil</a>
+                <a href="../InicioyRegistro/Cerrar_Sesion.php">Cerrar Sesion</a>
+            </nav>
+            <label for="btn-menu">✖️</label>
+        </div>
+    </div>
+
+    <!-- show 5 best movies -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center">Top 5 Peliculas</h1>
+            </div>
+        </div>
+        <div class="row">
+            <?php
+            $sql = "SELECT * FROM pelicula ORDER BY puntaje DESC LIMIT 5";
+            $result = mysqli_query($conn, $sql);
+            $queryResults = mysqli_num_rows($result);
+
+            if ($queryResults > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<div class='col-12 col-md-6 col-lg-4'>
+                    <div class='card'>
+                        <img src='../../assets/images/" . $row['imagen'] . "' class='card-img-top' alt='...'>
+                        <div class='card-body'>
+                            <h5 class='card-title
+                            '>" . $row['nombre'] . "</h5>
+                            <p class='card-text'>" . $row['descripcion'] . "</p>
+                            <a href='../Pelicula/Pelicula.php?id=" . $row['id'] . "' class='btn btn-primary'>Ver Pelicula</a>
+                        </div>
+                    </div>
+                </div>";
+                }
+            }
+            ?>
+        </div>
+    </div>
+
     <div class="row p-5">
         <?php
         include("../InicioyRegistro/conexion.php");
@@ -87,9 +118,13 @@
                     <p class="card-text">
                         <?php echo $row["descripcion"]; ?>
                     </p>
-                    <form action="../Peliculas/Perfil_peliculas.php" method="post">
+                    <form action="../Peliculas/Perfil_peliculas.php" method="post" class="d-inline">
                         <input type="hidden" name="id_pelicula" value="<?php echo $row["id"]; ?>">
-                        <input type="submit" name="detail" class="btn btn-primary" value="Ver Detalles">
+                        <input type="submit" name="detail" value="Ver Detalles">
+                    </form>
+                    <form action="../Peliculas/Resenia_peliculas.php" method="post" class="d-inline">
+                        <input type="hidden" name="id_pelicula" value="<?php echo $row["id"]; ?>">
+                        <input type="submit" name="resenia" value="Reseña">
                     </form>
                 </div>
             </div>
@@ -105,14 +140,14 @@
                 $queryResult = mysqli_num_rows($result);
                 if ($queryResult > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
-                ?>
+        ?>
 
         <div class="col-sm-3 p-4">
             <div class="card w-100 h-100 p-2">
                 <!-- render a image as form -->
                 <div class="card-body">
                     <h5 class="card-title">
-                            <?php echo $row["user_name"]; ?>
+                        <?php echo $row["user_name"]; ?>
                         </a>
                     </h5>
                     <p class="card-text">
@@ -120,7 +155,7 @@
                     </p>
                     <form action="../Usuario/Perfil_Usuarios.php" method="post">
                         <input type="hidden" name="id_usuario" value="<?php echo $row["id"]; ?>">
-                        <input type="submit" name="detail" class="btn btn-primary" value="Ver Perfil">
+                        <input type="submit" name="detail" value="Ver Perfil">
                     </form>
                 </div>
             </div>
@@ -128,14 +163,14 @@
 
 
 
-                <?php
+        <?php
                     }
                 } else {
                     echo "No hay resultados";
                 }
             }
         }
-        ?>
+                ?>
     </div>
 
     <!-- refactor this piece of code to get tops movies -->

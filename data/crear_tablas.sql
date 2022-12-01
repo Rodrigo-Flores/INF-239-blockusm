@@ -77,5 +77,18 @@ CREATE TABLE seguidores (
     FOREIGN KEY (id_usuario_seguido) REFERENCES usuarios(id)
 );
 
+-- crear tabla de renta de peliculas_rentadas in mysql format phpmyadmin
+CREATE TABLE peliculas_resenias (
+    id INT NOT NULL AUTO_INCREMENT,
+    id_pelicula INT NOT NULL,
+    id_usuario INT NOT NULL,
+    resenia VARCHAR(5000) DEFAULT NULL,
+    calificacion INT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_pelicula) REFERENCES peliculas(id),
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
+);
+
+
 -- select a pelicula from foreign key from peliculas_rentadas y peliculas
 SELECT peliculas_rentadas.id, peliculas_rentadas.id_pelicula, peliculas_rentadas.id_usuario, peliculas_rentadas.rentada, peliculas.titulo, peliculas.genero, peliculas.descripcion, peliculas.ejemplares_disponibles, peliculas.ejemplares_totales, peliculas.publico, peliculas.duracion, peliculas.precio, peliculas.reparto, peliculas.calificacion_media, peliculas.veces_rentada, peliculas.calificacion_media_usmtomatoes, peliculas.imagen FROM peliculas_rentadas INNER JOIN peliculas ON peliculas_rentadas.id_pelicula = peliculas.id;

@@ -88,7 +88,7 @@
                 </p>
                 <form action="../Usuario/Perfil_Usuarios.php" method="post">
                     <input type="hidden" name="id_usuario" value="<?php echo $row2["id"]; ?>">
-                    <input type="submit" name="detail" class="btn btn-primary" value="Ver Perfil">
+                    <input type="submit" name="detail" value="Ver Perfil">
                 </form>
             </div>
         </div>

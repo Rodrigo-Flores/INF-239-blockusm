@@ -141,31 +141,6 @@
         }
                 ?>
     </div>
-
-    <!-- refactor this piece of code to get tops movies -->
-    <?php
-    // include("../InicioyRegistro/conexion.php");
-    // $result = mysqli_query($conexion, "SELECT * FROM peliculas");
-    
-    // echo "<div class='container'>";
-    // echo "<div class='row'>";
-    // echo "<table class='table table-bordered table-striped'>";
-    // echo "<tr>";
-    // echo "<th>TITULO</th>";
-    // echo "<th>DESCRIPCION</th>";
-    
-    // echo "</tr>";
-    // while ($row = mysqli_fetch_array($result)) {
-    //     echo "<tr>";
-    //     echo "<td>" . $row['original_title'] . "</td>";
-    //     echo "<td>" . $row['overview'] . "</td>";
-    //     echo "</tr>";
-    // }
-    // echo "</table>";
-    // echo "</div>";
-    // echo "</div>";
-    ?>
-
 </body>
 
 </html>

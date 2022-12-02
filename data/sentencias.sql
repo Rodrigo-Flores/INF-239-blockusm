@@ -92,3 +92,44 @@ CREATE TABLE peliculas_resenias (
 
 -- select a pelicula from foreign key from peliculas_rentadas y peliculas
 SELECT peliculas_rentadas.id, peliculas_rentadas.id_pelicula, peliculas_rentadas.id_usuario, peliculas_rentadas.rentada, peliculas.titulo, peliculas.genero, peliculas.descripcion, peliculas.ejemplares_disponibles, peliculas.ejemplares_totales, peliculas.publico, peliculas.duracion, peliculas.precio, peliculas.reparto, peliculas.calificacion_media, peliculas.veces_rentada, peliculas.calificacion_media_usmtomatoes, peliculas.imagen FROM peliculas_rentadas INNER JOIN peliculas ON peliculas_rentadas.id_pelicula = peliculas.id;
+
+-- create many views
+CREATE VIEW peliculas_rentadas_view AS
+SELECT peliculas_rentadas.id, peliculas_rentadas.id_pelicula, peliculas_rentadas.id_usuario, peliculas_rentadas.rentada, peliculas.titulo, peliculas.genero, peliculas.descripcion, peliculas.ejemplares_disponibles, peliculas.ejemplares_totales, peliculas.publico, peliculas.duracion, peliculas.precio, peliculas.reparto, peliculas.calificacion_media, peliculas.veces_rentada, peliculas.calificacion_media_usmtomatoes, peliculas.imagen FROM peliculas_rentadas INNER JOIN peliculas ON peliculas_rentadas.id_pelicula = peliculas.id;
+
+CREATE VIEW peliculas_resenias_view AS
+SELECT peliculas_resenias.id, peliculas_resenias.id_pelicula, peliculas_resenias.id_usuario, peliculas_resenias.resenia, peliculas_resenias.calificacion, peliculas.titulo, peliculas.genero, peliculas.descripcion, peliculas.ejemplares_disponibles, peliculas.ejemplares_totales, peliculas.publico, peliculas.duracion, peliculas.precio, peliculas.reparto, peliculas.calificacion_media, peliculas.veces_rentada, peliculas.calificacion_media_usmtomatoes, peliculas.imagen FROM peliculas_resenias INNER JOIN peliculas ON peliculas_resenias.id_pelicula = peliculas.id;
+
+-- create store procedure mysql syntax rentar_pelicula
+DELIMITER $$
+CREATE PROCEDURE rentar_pelicula (IN id_pelicula INT, IN id_usuario INT)
+BEGIN
+    INSERT INTO peliculas_rentadas (id_pelicula, id_usuario) VALUES (id_pelicula, id_usuario);
+END$$
+DELIMITER ;
+
+-- create store procedure mysql syntax devolver_pelicula
+DELIMITER $$
+CREATE PROCEDURE devolver_pelicula (IN id_pelicula INT, IN id_usuario INT)
+BEGIN
+    DELETE FROM peliculas_rentadas WHERE id_pelicula = id_pelicula AND id_usuario = id_usuario;
+END$$
+DELIMITER ;
+
+-- create trigger mysql syntax
+DELIMITER $$
+CREATE TRIGGER rentar_pelicula_trigger AFTER INSERT ON peliculas_rentadas
+FOR EACH ROW
+BEGIN
+    UPDATE peliculas SET ejemplares_disponibles = ejemplares_disponibles - 1 WHERE id = NEW.id_pelicula;
+END$$
+DELIMITER ;
+
+-- create trigger mysql syntax
+DELIMITER $$
+CREATE TRIGGER devolver_pelicula_trigger AFTER DELETE ON peliculas_rentadas
+FOR EACH ROW
+BEGIN
+    UPDATE peliculas SET ejemplares_disponibles = ejemplares_disponibles + 1 WHERE id = OLD.id_pelicula;
+END$$
+DELIMITER ;

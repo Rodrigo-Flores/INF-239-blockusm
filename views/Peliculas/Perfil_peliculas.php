@@ -170,9 +170,9 @@
                         $query = "SELECT * FROM peliculas_rentadas WHERE id_pelicula = $id AND id_usuario = $sesion_id";
                         $result = mysqli_query($conexion, $query);
                         if (mysqli_num_rows($result) == 1) {
-                            echo "<button type='submit' class='btn btn-danger' name='return'>Devolver</button>";
+                            echo "<button type='submit' class='col-12 p-3' styles='background-color: red;' name='return'>Devolver</button>";
                         } else {
-                            echo "<button type='submit' class='btn btn-primary' name='rent'>Rentar</button>";
+                            echo "<button type='submit' class='col-12 p-3' name='rent'>Rentar</button>";
                         }
                         ?>
                     </form>

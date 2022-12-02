@@ -95,7 +95,7 @@
                 if (mysqli_num_rows($result) == 1) {
                     echo '<button type="submit" class="btn btn-danger" name="unfollow">Dejar de seguir</button>';
                 }else{
-                    echo '<button type="submit" class="btn btn-primary" name="follow">Seguir</button>';
+                    echo '<button type="submit" name="follow">Seguir</button>';
                 }
                 ?>
             </form>

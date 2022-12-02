@@ -59,6 +59,8 @@
 
     <?php
     include("../InicioyRegistro/conexion.php");
+    session_start();
+    $sesion_id = $_SESSION['id'];
     $id = $_POST['id_usuario'];
     $query = "SELECT * FROM usuarios WHERE id = $id";
     $result = mysqli_query($conexion, $query);
@@ -86,7 +88,16 @@
             <form action="Seguir.php" method="post">
                 <input type="hidden" name="user_name" value="<?php echo $user_name ?>">
                 <input type="hidden" name="user_id" value="<?php echo $id ?>">
-                <input type="submit" class="btn btn-primary" name="rentar" value="Seguir">
+                <?php 
+                //if the user follow the user, show unfollow button else show follow button
+                $query = "SELECT * FROM seguidores WHERE id_usuario_seguidor = $sesion_id AND id_usuario_seguido = $id";
+                $result = mysqli_query($conexion, $query);
+                if (mysqli_num_rows($result) == 1) {
+                    echo '<button type="submit" class="btn btn-danger" name="unfollow">Dejar de seguir</button>';
+                }else{
+                    echo '<button type="submit" class="btn btn-primary" name="follow">Seguir</button>';
+                }
+                ?>
             </form>
         </div>
     </div>

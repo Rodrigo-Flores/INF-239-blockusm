@@ -60,37 +60,6 @@
     </div>
 
     <!-- show 5 best movies -->
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="text-center">Top 5 Peliculas</h1>
-            </div>
-        </div>
-        <div class="row">
-            <?php
-            $sql = "SELECT * FROM pelicula ORDER BY puntaje DESC LIMIT 5";
-            $result = mysqli_query($conn, $sql);
-            $queryResults = mysqli_num_rows($result);
-
-            if ($queryResults > 0) {
-                while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<div class='col-12 col-md-6 col-lg-4'>
-                    <div class='card'>
-                        <img src='../../assets/images/" . $row['imagen'] . "' class='card-img-top' alt='...'>
-                        <div class='card-body'>
-                            <h5 class='card-title
-                            '>" . $row['nombre'] . "</h5>
-                            <p class='card-text'>" . $row['descripcion'] . "</p>
-                            <a href='../Pelicula/Pelicula.php?id=" . $row['id'] . "' class='btn btn-primary'>Ver Pelicula</a>
-                        </div>
-                    </div>
-                </div>";
-                }
-            }
-            ?>
-        </div>
-    </div>
-
     <div class="row p-5">
         <?php
         include("../InicioyRegistro/conexion.php");

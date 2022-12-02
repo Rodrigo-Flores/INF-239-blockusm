@@ -133,3 +133,35 @@ BEGIN
     UPDATE peliculas SET ejemplares_disponibles = ejemplares_disponibles + 1 WHERE id = OLD.id_pelicula;
 END$$
 DELIMITER ;
+
+-- create procedure resenia_pelicula
+DELIMITER $$
+CREATE PROCEDURE resenia_pelicula (IN id_pelicula INT, IN id_usuario INT, IN resenia VARCHAR(5000), IN calificacion INT)
+BEGIN
+    INSERT INTO peliculas_resenias (id_pelicula, id_usuario, resenia, calificacion) VALUES (id_pelicula, id_usuario, resenia, calificacion);
+END$$
+DELIMITER ;
+
+-- create trigger mysql syntax
+DELIMITER $$
+CREATE TRIGGER resenia_pelicula_trigger AFTER INSERT ON peliculas_resenias
+FOR EACH ROW
+BEGIN
+    UPDATE peliculas SET calificacion_media = (calificacion_media + NEW.calificacion) / 2 WHERE id = NEW.id_pelicula;
+END$$
+DELIMITER ;
+
+-- create view Mostrar top 5 mejores pel ́ıculas seg ́un la calificaci ́on de usmtomatoes. Se debe mostrar imagen, nombre y calificaci ́on actual.
+CREATE VIEW top5peliculasusmtomatoes AS
+SELECT imagen, titulo, calificacion_media_usmtomatoes FROM peliculas ORDER BY calificacion_media_usmtomatoes DESC LIMIT 5;
+-- create view Mostrar top 5 peores pel ́ıculas seg ́un la calificaci ́on de usmtomatoes. Se debe mostrar imagen, nombre y calificaci ́on actual.
+CREATE VIEW top5peliculasusmtomatoespeores AS
+SELECT imagen, titulo, calificacion_media_usmtomatoes FROM peliculas ORDER BY calificacion_media_usmtomatoes ASC LIMIT 5;
+-- create a function with SELECT titulo, COUNT(*) FROM peliculas INNER JOIN peliculas_resenias ON peliculas.id = peliculas_resenias.id_pelicula GROUP BY peliculas_resenias.id_pelicula;
+DELIMITER $$
+CREATE FUNCTION resenias_pelicula (id_pelicula INT) RETURNS INT
+BEGIN
+    SET resenias = (SELECT titulo, COUNT(*) FROM peliculas INNER JOIN peliculas_resenias ON peliculas.id = peliculas_resenias.id_pelicula GROUP BY peliculas_resenias.id_pelicula;)
+    RETURN resenias;
+END$$
+DELIMITER ;

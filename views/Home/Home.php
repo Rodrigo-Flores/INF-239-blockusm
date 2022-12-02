@@ -15,8 +15,6 @@
 </head>
 
 <body>
-
-    <!--Creando cabezera de la pagina-->
     <header>
         <!--Cambiar esto para que al clikear al foto vuelva a la pagina principal-->
         <div class="Logo">
@@ -47,100 +45,189 @@
         </form>
     </header>
 
-    <!--Menu de usuario-->
-    <input type="checkbox" id="btn-menu">
-    <div class="container-menu">
-        <div class="cont-menu">
-            <nav>
-                <a href="../Usuario/Perfil_main.php">Ver Perfil</a>
-                <a href="../InicioyRegistro/Cerrar_Sesion.php">Cerrar Sesion</a>
-            </nav>
-            <label for="btn-menu">✖️</label>
-        </div>
-    </div>
 
-    <!-- show 5 best movies -->
-    <div class="row p-5">
+    <?php
+    include("../InicioyRegistro/conexion.php");
+    $query = "SELECT * FROM top5peliculasusmtomatoes";
+    $result = mysqli_query($conexion, $query);
+    if (!$result) {
+        die('Query Failed' . mysqli_error($conn));
+    }
+    ?>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="text-center">Top 5 Peliculas</h1>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Titulo</th>
+                                    <th>Imagen</th>
+                                    <th>Calificacion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                while ($row = mysqli_fetch_array($result)) { ?>
+                                <tr>
+                                    <td>
+                                        <?php echo $row['titulo'] ?>
+                                    </td>
+                                    <td>
+                                        <img href="<?php echo $row['imagen'] ?>" styles="margin: 5em;">
+                                    </td>
+                                    <td>
+                                        <?php echo $row['calificacion_media_usmtomatoes'] ?>
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
         <?php
         include("../InicioyRegistro/conexion.php");
-        if (isset($_POST["tipo"])) {
-            if ($_POST["tipo"] == "peliculas") {
-                include("../InicioyRegistro/conexion.php");
-                $query = "SELECT * FROM peliculas WHERE titulo LIKE '%" . $_POST['search'] . "%'";
-                $result = mysqli_query($conexion, $query);
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_array($result)) {
+        $query = "SELECT * FROM top5peliculasusmtomatoespeores";
+        $result = mysqli_query($conexion, $query);
+        if (!$result) {
+            die('Query Failed' . mysqli_error($conn));
+        }
         ?>
-        <div class="col-sm-3 p-4">
-            <div class="card w-100 h-100 p-2">
-                <!-- render a image as form -->
-                <form action="../Peliculas/Perfil_peliculas.php" method="post">
-                    <input type="hidden" name="id_pelicula" value="<?php echo $row['id']; ?>">
-                    <input type="image" src="<?php echo $row['imagen']; ?>" class="card-img-top" alt="...">
-                </form>
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <a href="../Peliculas/Perfil_peliculas.php" style="text-decoration: none; color: black;">
-                            <?php echo $row["titulo"]; ?>
-                        </a>
-                    </h5>
-                    <p class="card-text">
-                        <?php echo $row["descripcion"]; ?>
-                    </p>
-                    <form action="../Peliculas/Perfil_peliculas.php" method="post" class="d-inline">
-                        <input type="hidden" name="id_pelicula" value="<?php echo $row["id"]; ?>">
-                        <input type="submit" name="detail" value="Ver Detalles">
-                    </form>
-                    <form action="../Peliculas/Resenia_peliculas.php" method="post" class="d-inline">
-                        <input type="hidden" name="id_pelicula" value="<?php echo $row["id"]; ?>">
-                        <input type="submit" name="resenia" value="Reseña">
-                    </form>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="text-center">Top 5 Peliculas Peores</h1>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Titulo</th>
+                                    <th>Imagen</th>
+                                    <th>Calificacion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                while ($row = mysqli_fetch_array($result)) { ?>
+                                <tr>
+                                    <td>
+                                        <?php echo $row['titulo'] ?>
+                                    </td>
+                                    <td>
+                                        <img href="<?php echo $row['imagen'] ?>" styles="margin: 5em;">
+                                    </td>
+                                    <td>
+                                        <?php echo $row['calificacion_media_usmtomatoes'] ?>
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-        <?php
-                    }
-                } else {
-                    echo "No se encontraron resultados";
-                }
-            } else {
-                $query = "SELECT * FROM usuarios WHERE user_name LIKE '%{$_POST['search']}%' OR nombre LIKE '%{$_POST['search']}%'";
-                $result = mysqli_query($conexion, $query);
-                $queryResult = mysqli_num_rows($result);
-                if ($queryResult > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-        ?>
 
-        <div class="col-sm-3 p-4">
-            <div class="card w-100 h-100 p-2">
-                <!-- render a image as form -->
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <?php echo $row["user_name"]; ?>
-                        </a>
-                    </h5>
-                    <p class="card-text">
-                        <?php echo $row["descripcion"]; ?>
-                    </p>
-                    <form action="../Usuario/Perfil_Usuarios.php" method="post">
-                        <input type="hidden" name="id_usuario" value="<?php echo $row["id"]; ?>">
-                        <input type="submit" name="detail" value="Ver Perfil">
-                    </form>
-                </div>
+        <input type="checkbox" id="btn-menu">
+        <div class="container-menu">
+            <div class="cont-menu">
+                <nav>
+                    <a href="../Usuario/Perfil_main.php">Ver Perfil</a>
+                    <a href="../InicioyRegistro/Cerrar_Sesion.php">Cerrar Sesion</a>
+                </nav>
+                <label for="btn-menu">✖️</label>
             </div>
         </div>
 
-
-
-        <?php
+        <!-- show 5 best movies -->
+        <div class="row p-5">
+            <?php
+            include("../InicioyRegistro/conexion.php");
+            if (isset($_POST["tipo"])) {
+                if ($_POST["tipo"] == "peliculas") {
+                    include("../InicioyRegistro/conexion.php");
+                    $query = "SELECT * FROM peliculas WHERE titulo LIKE '%" . $_POST['search'] . "%'";
+                    $result = mysqli_query($conexion, $query);
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_array($result)) {
+            ?>
+            <div class="col-sm-3 p-4">
+                <div class="card w-100 h-100 p-2">
+                    <!-- render a image as form -->
+                    <form action="../Peliculas/Perfil_peliculas.php" method="post">
+                        <input type="hidden" name="id_pelicula" value="<?php echo $row['id']; ?>">
+                        <input type="image" src="<?php echo $row['imagen']; ?>" class="card-img-top" alt="...">
+                    </form>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="../Peliculas/Perfil_peliculas.php" style="text-decoration: none; color: black;">
+                                <?php echo $row["titulo"]; ?>
+                            </a>
+                        </h5>
+                        <p class="card-text">
+                            <?php echo $row["descripcion"]; ?>
+                        </p>
+                        <form action="../Peliculas/Perfil_peliculas.php" method="post" class="d-inline">
+                            <input type="hidden" name="id_pelicula" value="<?php echo $row["id"]; ?>">
+                            <input type="submit" name="detail" value="Ver Detalles">
+                        </form>
+                        <form action="../Peliculas/Resenia_peliculas.php" method="post" class="d-inline">
+                            <input type="hidden" name="id_pelicula" value="<?php echo $row["id"]; ?>">
+                            <input type="submit" name="resenia" value="Reseña">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <?php
+                        }
+                    } else {
+                        echo "No se encontraron resultados";
                     }
                 } else {
-                    echo "No hay resultados";
+                    $query = "SELECT * FROM usuarios WHERE user_name LIKE '%{$_POST['search']}%' OR nombre LIKE '%{$_POST['search']}%'";
+                    $result = mysqli_query($conexion, $query);
+                    $queryResult = mysqli_num_rows($result);
+                    if ($queryResult > 0) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+            ?>
+
+            <div class="col-sm-3 p-4">
+                <div class="card w-100 h-100 p-2">
+                    <!-- render a image as form -->
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <?php echo $row["user_name"]; ?>
+                            </a>
+                        </h5>
+                        <p class="card-text">
+                            <?php echo $row["descripcion"]; ?>
+                        </p>
+                        <form action="../Usuario/Perfil_Usuarios.php" method="post">
+                            <input type="hidden" name="id_usuario" value="<?php echo $row["id"]; ?>">
+                            <input type="submit" name="detail" value="Ver Perfil">
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <?php
+                        }
+                    } else {
+                        echo "No hay resultados";
+                    }
                 }
             }
-        }
-                ?>
-    </div>
+            ?>
+        </div>
 </body>
 
 </html>

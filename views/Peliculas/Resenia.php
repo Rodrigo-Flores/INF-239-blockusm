@@ -68,6 +68,7 @@ session_start();
         $id_usuario = $_SESSION['id'];
         $calification = $_POST['calificacion'];
         $resenia = $_POST['resenia'];
+        // $sql = "EXEC resenia_pelicula '$id_pelicula', '$id_usuario', '$resenia', '$calification'";
         $sql = "INSERT INTO peliculas_resenias (id_pelicula, id_usuario, resenia, calificacion) VALUES ('$id_pelicula', '$id_usuario', '$resenia', '$calification')";
         $result = mysqli_query($conexion, $sql);
         ?>

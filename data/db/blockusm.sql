@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-12-2022 a las 03:35:52
+-- Tiempo de generación: 02-12-2022 a las 04:38:09
 -- Versión del servidor: 10.4.25-MariaDB
 -- Versión de PHP: 8.1.10
 
@@ -31,6 +31,10 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `rentar_pelicula` (IN `id_pelicula` INT, IN `id_usuario` INT)   BEGIN
     INSERT INTO peliculas_rentadas (id_pelicula, id_usuario) VALUES (id_pelicula, id_usuario);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `resenia_pelicula` (IN `id_pelicula` INT, IN `id_usuario` INT, IN `resenia` VARCHAR(5000), IN `calificacion` INT)   BEGIN
+    INSERT INTO peliculas_resenias (id_pelicula, id_usuario, resenia, calificacion) VALUES (id_pelicula, id_usuario, resenia, calificacion);
 END$$
 
 DELIMITER ;
@@ -63,9 +67,9 @@ CREATE TABLE `peliculas` (
 --
 
 INSERT INTO `peliculas` (`id`, `titulo`, `genero`, `descripcion`, `ejemplares_disponibles`, `ejemplares_totales`, `publico`, `duracion`, `precio`, `reparto`, `calificacion_media`, `veces_rentada`, `calificacion_media_usmtomatoes`, `imagen`) VALUES
-(1, 'The Godfather', 'Drama', 'The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.', 10, 10, 'R', 175, 100, 'Marlon Brando, Al Pacino, James Caan', 9, 0, 9, 'https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg'),
+(1, 'The Godfather', 'Drama', 'The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.', 10, 10, 'R', 175, 100, 'Marlon Brando, Al Pacino, James Caan', 7, 0, 9, 'https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg'),
 (2, 'The Dark Knight', 'Action, Crime, Drama', 'When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, the caped crusader must come to terms with one of the greatest psychological tests of his ability to fight injustice.', 10, 10, 'PG', 152, 150, 'Christian Bale, Heath Ledger, Aaron Eckhart', 9, 0, 9, 'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_.jpg'),
-(3, 'The Lord of the Rings: The Return of the King', 'Adventure, Drama, Fantasy', 'Gandalf and Aragorn lead the World of', 11, 10, 'PG', 201, 200, 'Elijah Wood, Viggo Mortensen, Ian McKellen', 9, 0, 9, 'https://images-na.ssl-images-amazon.com/images/S/pv-target-images/44f7e18d9bc7942f3ebaf39869014b9f137b14e67fd2a8564f42ebaa84613ea7._RI_V_TTW_.jpg'),
+(3, 'The Lord of the Rings: The Return of the King', 'Adventure, Drama, Fantasy', 'Gandalf and Aragorn lead the World of', 11, 10, 'PG', 201, 200, 'Elijah Wood, Viggo Mortensen, Ian McKellen', 5, 0, 9, 'https://images-na.ssl-images-amazon.com/images/S/pv-target-images/44f7e18d9bc7942f3ebaf39869014b9f137b14e67fd2a8564f42ebaa84613ea7._RI_V_TTW_.jpg'),
 (4, 'The Shawshank Redemption', 'Drama, Crime', 'Two imprisoned', 10, 10, 'R', 142, 250, 'Tim Robbins, Morgan Freeman, Bob Gunton', 9, 0, 9, 'https://pics.filmaffinity.com/Cadena_perpetua-576140557-large.jpg'),
 (5, 'The Lord of the Rings: The Fellowship of the Ring', 'Adventure, Drama, Fantasy', 'A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.', 10, 10, 'PG', 178, 300, 'Elijah Wood, Ian McKellen, Orlando Bloom', 9, 0, 9, 'https://m.media-amazon.com/images/M/MV5BN2EyZjM3NzUtNWUzMi00MTgxLWI0NTctMzY4M2VlOTdjZWRiXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_.jpg'),
 (6, 'The Lord of the Rings: The Two Towers', 'Adventure, Drama, Fantasy', 'While Frodo and Sam edge closer to Mordor with the help of the shifty Gollum, the divided fellowship makes a stand against Sauron\'s new ally, Saruman, and his hordes of Isengard.', 10, 10, 'PG', 179, 350, 'Elijah Wood, Ian McKellen, Viggo Mortensen', 9, 0, 9, 'https://m.media-amazon.com/images/M/MV5BZGMxZTdjZmYtMmE2Ni00ZTdkLWI5NTgtNjlmMjBiNzU2MmI5XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg'),
@@ -159,7 +163,19 @@ CREATE TABLE `peliculas_resenias` (
 
 INSERT INTO `peliculas_resenias` (`id`, `id_pelicula`, `id_usuario`, `resenia`, `calificacion`) VALUES
 (1, 1, 2, '', 1),
-(2, 8, 2, 'buena', 5);
+(2, 8, 2, 'buena', 5),
+(3, 3, 2, '3', 1),
+(4, 1, 2, 'dddd', 5);
+
+--
+-- Disparadores `peliculas_resenias`
+--
+DELIMITER $$
+CREATE TRIGGER `resenia_pelicula_trigger` AFTER INSERT ON `peliculas_resenias` FOR EACH ROW BEGIN
+    UPDATE peliculas SET calificacion_media = (calificacion_media + NEW.calificacion) / 2 WHERE id = NEW.id_pelicula;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -211,6 +227,30 @@ INSERT INTO `seguidores` (`id`, `id_usuario_seguidor`, `id_usuario_seguido`) VAL
 -- --------------------------------------------------------
 
 --
+-- Estructura Stand-in para la vista `top5peliculasusmtomatoes`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `top5peliculasusmtomatoes` (
+`imagen` varchar(255)
+,`titulo` varchar(100)
+,`calificacion_media_usmtomatoes` int(11)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `top5peliculasusmtomatoespeores`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `top5peliculasusmtomatoespeores` (
+`imagen` varchar(255)
+,`titulo` varchar(100)
+,`calificacion_media_usmtomatoes` int(11)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuarios`
 --
 
@@ -252,6 +292,24 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `peliculas_resenias_view`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `peliculas_resenias_view`  AS SELECT `peliculas_resenias`.`id` AS `id`, `peliculas_resenias`.`id_pelicula` AS `id_pelicula`, `peliculas_resenias`.`id_usuario` AS `id_usuario`, `peliculas_resenias`.`resenia` AS `resenia`, `peliculas_resenias`.`calificacion` AS `calificacion`, `peliculas`.`titulo` AS `titulo`, `peliculas`.`genero` AS `genero`, `peliculas`.`descripcion` AS `descripcion`, `peliculas`.`ejemplares_disponibles` AS `ejemplares_disponibles`, `peliculas`.`ejemplares_totales` AS `ejemplares_totales`, `peliculas`.`publico` AS `publico`, `peliculas`.`duracion` AS `duracion`, `peliculas`.`precio` AS `precio`, `peliculas`.`reparto` AS `reparto`, `peliculas`.`calificacion_media` AS `calificacion_media`, `peliculas`.`veces_rentada` AS `veces_rentada`, `peliculas`.`calificacion_media_usmtomatoes` AS `calificacion_media_usmtomatoes`, `peliculas`.`imagen` AS `imagen` FROM (`peliculas_resenias` join `peliculas` on(`peliculas_resenias`.`id_pelicula` = `peliculas`.`id`))  ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `top5peliculasusmtomatoes`
+--
+DROP TABLE IF EXISTS `top5peliculasusmtomatoes`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `top5peliculasusmtomatoes`  AS SELECT `peliculas`.`imagen` AS `imagen`, `peliculas`.`titulo` AS `titulo`, `peliculas`.`calificacion_media_usmtomatoes` AS `calificacion_media_usmtomatoes` FROM `peliculas` ORDER BY `peliculas`.`calificacion_media_usmtomatoes` DESC LIMIT 0, 55  ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `top5peliculasusmtomatoespeores`
+--
+DROP TABLE IF EXISTS `top5peliculasusmtomatoespeores`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `top5peliculasusmtomatoespeores`  AS SELECT `peliculas`.`imagen` AS `imagen`, `peliculas`.`titulo` AS `titulo`, `peliculas`.`calificacion_media_usmtomatoes` AS `calificacion_media_usmtomatoes` FROM `peliculas` ORDER BY `peliculas`.`calificacion_media_usmtomatoes` ASC LIMIT 0, 55  ;
 
 --
 -- Índices para tablas volcadas
@@ -313,7 +371,7 @@ ALTER TABLE `peliculas_rentadas`
 -- AUTO_INCREMENT de la tabla `peliculas_resenias`
 --
 ALTER TABLE `peliculas_resenias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `seguidores`

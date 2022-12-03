@@ -79,6 +79,9 @@ session_start();
             } else {
                 $sql = "INSERT INTO peliculas_rentadas (id_pelicula, id_usuario, rentada) VALUES ('$id_pelicula', '$id_usuario', 1)";
                 $result = mysqli_query($conexion, $sql);
+                //add 1 to rentas
+                $query3 = "UPDATE peliculas SET veces_rentada = veces_rentada + 1 WHERE id = '$id_pelicula'";
+                $result3 = mysqli_query($conexion, $query3);
             }
         } else {
             // $sql = "EXEC devolver_pelicula '$id_pelicula', '$id_usuario'";

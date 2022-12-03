@@ -32,7 +32,7 @@
 
         <!--Menu de usuario-->
         <input type="checkbox" id="btn-menu">
-        <div class="container-menu">
+        <div class="container-menu" style="z-index: 1;">
             <div class="cont-menu">
                 <nav>
                     <a href="../Usuario/Perfil_main.php">Ver Perfil</a>
@@ -58,49 +58,40 @@
     </header>
 
     <?php
-    include("../InicioyRegistro/conexion.php");
     session_start();
+    include("../InicioyRegistro/conexion.php");
     $sesion_id = $_SESSION['id'];
-    $id = $_POST['id_usuario'];
-    $query = "SELECT * FROM usuarios WHERE id = $id";
-    $result = mysqli_query($conexion, $query);
-    if (mysqli_num_rows($result) == 1) {
-        $row = mysqli_fetch_array($result);
-        $user_name = $row['user_name'];
-        $nombre = $row['nombre'];
-        $seguidores = $row['seguidores'];
-        $seguidos = $row['seguidos'];
-        $descripcion = $row['descripcion'];
 
+    //sort the reviews of followed users and show them
+    $query = "SELECT * FROM peliculas_resenias WHERE id_usuario IN (SELECT id_usuario_seguido FROM seguidores WHERE id_usuario_seguidor = $sesion_id) ORDER BY id DESC;";
+    $result = mysqli_query($conexion, $query);
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_array($result)) {
+            //select the name of the user who made the review
+            $query2 = "SELECT user_name FROM usuarios WHERE id = $row[id_usuario];";
+            $result2 = mysqli_query($conexion, $query2);
+            $row2 = mysqli_fetch_array($result2);
+            $user_name = $row2['user_name'];
+
+            //select the name of the movie
+            $query3 = "SELECT titulo FROM peliculas WHERE id = $row[id_pelicula];";
+            $result3 = mysqli_query($conexion, $query3);
+            $row3 = mysqli_fetch_array($result3);
+            $nombre_pelicula = $row3['titulo'];
+
+            echo "<div class='card'>
+                    <div class='container'>
+                        <h3><b>{$nombre_pelicula}</b></h3>
+                        <h4>de: {$user_name}</h4>
+                        <p>reseña: {$row['resenia']}</p>
+                        <p>calificacion: {$row['calificacion']}</p>
+                    </div>
+                </div>";
+
+        }
     }
+
     ?>
-    <div class="container col-3">
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title"><?php echo $user_name?> </h5>
-                <p class="card-text"><?php echo $descripcion?></p>
-            </div>
-            <ul class="list-group list-group-flush">
-            <li class="list-group-item">Nombre: <?php echo $nombre?></li>
-                <li class="list-group-item">Seguidores: <?php echo $seguidores?></li>
-                <li class="list-group-item">Seguidos <?php echo $seguidos?></li>
-            </ul>
-            <form action="Seguir.php" method="post">
-                <input type="hidden" name="user_name" value="<?php echo $user_name ?>">
-                <input type="hidden" name="user_id" value="<?php echo $id ?>">
-                <?php 
-                //if the user follow the user, show unfollow button else show follow button
-                $query = "SELECT * FROM seguidores WHERE id_usuario_seguidor = $sesion_id AND id_usuario_seguido = $id";
-                $result = mysqli_query($conexion, $query);
-                if (mysqli_num_rows($result) == 1) {
-                    echo'<input type="submit" class="mt-0 p-2 col-12" name="unfollow" value="Dejar de seguir">';
-                }else{
-                    echo"<input type='submit' class='mt-0 p-2 col-12' name='follow' value='Seguir'>";
-                }
-                ?>
-            </form>
-        </div>
-    </div>
 </body>
 
 </html>

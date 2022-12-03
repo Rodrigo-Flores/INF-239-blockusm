@@ -32,7 +32,7 @@
 
         <!--Menu de usuario-->
         <input type="checkbox" id="btn-menu">
-        <div class="container-menu">
+        <div class="container-menu" style="z-index: 1;">
             <div class="cont-menu">
                 <nav>
                     <a href="../Usuario/Perfil_main.php">Ver Perfil</a>
@@ -56,51 +56,58 @@
             </div>
         </form>
     </header>
-
     <?php
     include("../InicioyRegistro/conexion.php");
     session_start();
-    $sesion_id = $_SESSION['id'];
-    $id = $_POST['id_usuario'];
-    $query = "SELECT * FROM usuarios WHERE id = $id";
+
+    //order movies by calificacion_media_usmtomatoes
+    $query = "SELECT * FROM peliculas ORDER BY calificacion_media_usmtomatoes ASC";
     $result = mysqli_query($conexion, $query);
-    if (mysqli_num_rows($result) == 1) {
-        $row = mysqli_fetch_array($result);
-        $user_name = $row['user_name'];
-        $nombre = $row['nombre'];
-        $seguidores = $row['seguidores'];
-        $seguidos = $row['seguidos'];
-        $descripcion = $row['descripcion'];
+    $c=0;
+    //show the results of the query
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_array($result)) {
 
-    }
-    ?>
-    <div class="container col-3">
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title"><?php echo $user_name?> </h5>
-                <p class="card-text"><?php echo $descripcion?></p>
+            if ($c == 5){
+                break;
+            }
+        ?>
+                <div class="col-sm-3 p-4">
+                <div class="card w-100 h-100 p-2">
+                    <!-- render a image as form -->
+                    <form action="../Peliculas/Perfil_peliculas.php" method="post">
+                        <input type="hidden" name="id_pelicula" value="<?php echo $row['id']; ?>">
+                        <input type="image" src="<?php echo $row['imagen']; ?>" class="card-img-top" alt="...">
+                    </form>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="../Peliculas/Perfil_peliculas.php" style="text-decoration: none; color: black;">
+                                <?php echo $row["titulo"]; ?>
+                            </a>
+                        </h5>
+                        <p class="card-text">
+                            <?php echo $row["descripcion"]; ?>
+                        </p>
+                        <form action="../Peliculas/Perfil_peliculas.php" method="post" class="d-inline">
+                            <input type="hidden" name="id_pelicula" value="<?php echo $row["id"]; ?>">
+                            <input type="submit" name="detail" value="Ver Detalles">
+                        </form>
+                        <form action="../Peliculas/Resenia_peliculas.php" method="post" class="d-inline">
+                            <input type="hidden" name="id_pelicula" value="<?php echo $row["id"]; ?>">
+                            <input type="submit" name="resenia" value="Reseña">
+                        </form>
+                    </div>
+                </div>
             </div>
-            <ul class="list-group list-group-flush">
-            <li class="list-group-item">Nombre: <?php echo $nombre?></li>
-                <li class="list-group-item">Seguidores: <?php echo $seguidores?></li>
-                <li class="list-group-item">Seguidos <?php echo $seguidos?></li>
-            </ul>
-            <form action="Seguir.php" method="post">
-                <input type="hidden" name="user_name" value="<?php echo $user_name ?>">
-                <input type="hidden" name="user_id" value="<?php echo $id ?>">
-                <?php 
-                //if the user follow the user, show unfollow button else show follow button
-                $query = "SELECT * FROM seguidores WHERE id_usuario_seguidor = $sesion_id AND id_usuario_seguido = $id";
-                $result = mysqli_query($conexion, $query);
-                if (mysqli_num_rows($result) == 1) {
-                    echo'<input type="submit" class="mt-0 p-2 col-12" name="unfollow" value="Dejar de seguir">';
-                }else{
-                    echo"<input type='submit' class='mt-0 p-2 col-12' name='follow' value='Seguir'>";
-                }
-                ?>
-            </form>
-        </div>
-    </div>
-</body>
+        
 
+
+
+<?php
+    $c = $c + 1;
+        
+        }
+    }
+?>
+</body>
 </html>

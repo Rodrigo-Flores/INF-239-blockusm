@@ -45,96 +45,6 @@
         </form>
     </header>
 
-
-    <?php
-    include("../InicioyRegistro/conexion.php");
-    $query = "SELECT * FROM top5peliculasusmtomatoes";
-    $result = mysqli_query($conexion, $query);
-    if (!$result) {
-        die('Query Failed' . mysqli_error($conn));
-    }
-    ?>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h1 class="text-center">Top 5 Peliculas</h1>
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Titulo</th>
-                                    <th>Imagen</th>
-                                    <th>Calificacion</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                while ($row = mysqli_fetch_array($result)) { ?>
-                                <tr>
-                                    <td>
-                                        <?php echo $row['titulo'] ?>
-                                    </td>
-                                    <td>
-                                        <img href="<?php echo $row['imagen'] ?>" styles="margin: 5em;">
-                                    </td>
-                                    <td>
-                                        <?php echo $row['calificacion_media_usmtomatoes'] ?>
-                                    </td>
-                                </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <?php
-        include("../InicioyRegistro/conexion.php");
-        $query = "SELECT * FROM top5peliculasusmtomatoespeores";
-        $result = mysqli_query($conexion, $query);
-        if (!$result) {
-            die('Query Failed' . mysqli_error($conn));
-        }
-        ?>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h1 class="text-center">Top 5 Peliculas Peores</h1>
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Titulo</th>
-                                    <th>Imagen</th>
-                                    <th>Calificacion</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                while ($row = mysqli_fetch_array($result)) { ?>
-                                <tr>
-                                    <td>
-                                        <?php echo $row['titulo'] ?>
-                                    </td>
-                                    <td>
-                                        <img href="<?php echo $row['imagen'] ?>" styles="margin: 5em;">
-                                    </td>
-                                    <td>
-                                        <?php echo $row['calificacion_media_usmtomatoes'] ?>
-                                    </td>
-                                </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
         <input type="checkbox" id="btn-menu">
         <div class="container-menu">
             <div class="cont-menu">
@@ -146,6 +56,13 @@
             </div>
         </div>
 
+
+        <a href="../Peliculas/Top5mejoresusm.php">Top 5 mejores peliculas segun USMtomatoes</a>
+        <a href="../Peliculas/Top5peoresusm.php">Top 5 peores peliculas segun USMtomatoes</a>
+        <a href="../Peliculas/Pocasunidades.php">Pocas unidades!!</a>
+        <a href="../Usuario/Resenia_usuarios_seguidos.php">Reseñas usuarios seguidos</a>
+
+        <a href="../Usuarios/"></a>
         <!-- show 5 best movies -->
         <div class="row p-5">
             <?php
@@ -191,11 +108,13 @@
                         echo "No se encontraron resultados";
                     }
                 } else {
+                    session_start();
                     $query = "SELECT * FROM usuarios WHERE user_name LIKE '%{$_POST['search']}%' OR nombre LIKE '%{$_POST['search']}%'";
                     $result = mysqli_query($conexion, $query);
                     $queryResult = mysqli_num_rows($result);
                     if ($queryResult > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
+                            if ($row['id'] != $_SESSION['id']) {
             ?>
 
             <div class="col-sm-3 p-4">
@@ -220,6 +139,7 @@
 
 
             <?php
+                            }
                         }
                     } else {
                         echo "No hay resultados";

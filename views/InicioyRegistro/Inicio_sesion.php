@@ -37,6 +37,7 @@ if (isset($_POST['user_name']) && isset($_POST['Clave'])) {
                 $_SESSION['seguidores'] = $row['seguidores'];
                 $_SESSION['seguidos'] = $row['seguidos'];
                 $_SESSION['descripcion'] = $row['descripcion'];
+                $_SESSION['saldo'] = $row['saldo'];
                 header("Location: ../Home/Home.php");
                 exit();
             } else {

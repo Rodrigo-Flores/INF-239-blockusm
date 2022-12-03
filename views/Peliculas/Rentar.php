@@ -68,26 +68,30 @@ session_start();
         $id_usuario = $_SESSION['id'];
         $precio = $_POST['precio'];
 
+        //si el usuario no tiene saldo suficiente
+        $query = "SELECT saldo FROM usuarios WHERE id= $id_usuario";
+        $result = mysqli_query($conexion, $query);
+        $row = mysqli_fetch_array($result);
 
         if (isset($_POST['rent'])) {
-            $sql = "SELECT * FROM peliculas_rentadas WHERE id_pelicula = '$id_pelicula' AND id_usuario = '$id_usuario'";
-            $result = mysqli_query($conexion, $sql);
-            $resultCheck = mysqli_num_rows($result);
-            if ($resultCheck > 0) {
-                $sql = "EXEC rentar_pelicula '$id_pelicula', '$id_usuario'";
+            if ($row['saldo'] > $precio) {
+
+
+                $sql = "SELECT * FROM peliculas_rentadas WHERE id_pelicula = '$id_pelicula' AND id_usuario = '$id_usuario'";
                 $result = mysqli_query($conexion, $sql);
-            } else {
-                $sql = "INSERT INTO peliculas_rentadas (id_pelicula, id_usuario, rentada) VALUES ('$id_pelicula', '$id_usuario', 1)";
-                $result = mysqli_query($conexion, $sql);
-                //add 1 to rentas
-                $query3 = "UPDATE peliculas SET veces_rentada = veces_rentada + 1 WHERE id = '$id_pelicula'";
-                $result3 = mysqli_query($conexion, $query3);
-            }
-        } else {
-            // $sql = "EXEC devolver_pelicula '$id_pelicula', '$id_usuario'";
-            $sql = "DELETE FROM peliculas_rentadas WHERE id_pelicula = '$id_pelicula' AND id_usuario = '$id_usuario'";
-            $result = mysqli_query($conexion, $sql);
-        }
+                $resultCheck = mysqli_num_rows($result);
+                if ($resultCheck > 0) {
+                    $sql = "EXEC rentar_pelicula '$id_pelicula', '$id_usuario'";
+                    $result = mysqli_query($conexion, $sql);
+                } else {
+                    $sql = "INSERT INTO peliculas_rentadas (id_pelicula, id_usuario, rentada) VALUES ('$id_pelicula', '$id_usuario', 1)";
+                    $result = mysqli_query($conexion, $sql);
+                    //add 1 to rentas
+                    $query3 = "UPDATE peliculas SET veces_rentada = veces_rentada + 1 WHERE id = '$id_pelicula'";
+                    $result3 = mysqli_query($conexion, $query3);
+                    //restar precio al saldo del usuario
+                    $query2 = "UPDATE usuarios SET saldo = saldo - '$precio' WHERE id = '$id_usuario'";
+                    $result2 = mysqli_query($conexion, $query2);
         ?>
         <div class="container">
             <div class="row">
@@ -100,5 +104,48 @@ session_start();
             </div>
         </div>
     </body>
+
+
+    <?php
+
+                }
+            } else {
+                ?>
+            <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-danger">
+                        <h1>Saldo insuficiente</h1>
+                        <a href="../Home/Home.php">Volver a la pagina principal</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+                <?php
+            }
+        } else {
+            // $sql = "EXEC devolver_pelicula '$id_pelicula', '$id_usuario'";
+            $sql = "DELETE FROM peliculas_rentadas WHERE id_pelicula = '$id_pelicula' AND id_usuario = '$id_usuario'";
+            $result = mysqli_query($conexion, $sql);
+            //dovolver precio al saldo del usuario
+            $query2 = "UPDATE usuarios SET saldo = saldo + $precio WHERE id = '$id_usuario'";
+            $result2 = mysqli_query($conexion, $query2);
+    ?>
+            <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-success">
+                        <h1>La pelicula se ha devuelto correctamente</h1>
+                        <a href="../Home/Home.php">Volver a la pagina principal</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <?php
+
+        }
+                    ?>
 
 </html>

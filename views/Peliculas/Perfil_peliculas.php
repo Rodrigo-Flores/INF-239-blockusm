@@ -42,6 +42,10 @@
             </div>
         </div>
 
+        <div class="user">
+            <a href="../Usuario/Perfil_main.php" style="text-decoration: none; color: black;"><h2 class="username"><?php echo"Bienvenido: ".$_SESSION['user_name']; ?></h2></a>
+        </div>
+
         <!-- search bar -->
         <form action="../Home/Home.php" method="post">
             <div class="search-box">

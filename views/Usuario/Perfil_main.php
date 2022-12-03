@@ -83,6 +83,11 @@ session_start();
         <a href="Perfil_Seguidos.php" style="text-decoration: none; color: black;"><p class="card-text">Seguidos:
           <?php echo $_SESSION['seguidos']; ?>
         </p></a>
+        
+        <p class="card-text">Saldo:
+          <?php echo $_SESSION['saldo']; ?>
+        </p>
+
         <p class="card-text">Descripcion:
           <?php echo $_SESSION['descripcion']; ?>
       </div>

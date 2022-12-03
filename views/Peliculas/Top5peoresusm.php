@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,6 +45,10 @@
             </div>
         </div>
 
+        <div class="user">
+            <a href="../Usuario/Perfil_main.php" style="text-decoration: none; color: black;"><h2 class="username"><?php echo"Bienvenido: ".$_SESSION['user_name']; ?></h2></a>
+        </div>
+
         <!-- search bar -->
         <form action="../Home/Home.php" method="post">
             <div class="search-box">
@@ -56,6 +63,10 @@
             </div>
         </form>
     </header>
+    <a href="../Peliculas/Top5mejoresusm.php">Top 5 mejores peliculas segun USMtomatoes</a>
+        <a href="../Peliculas/Top5peoresusm.php">Top 5 peores peliculas segun USMtomatoes</a>
+        <a href="../Peliculas/Pocasunidades.php">Pocas unidades!!</a>
+        <a href="../Usuario/Resenia_usuarios_seguidos.php">Reseñas usuarios seguidos</a>
     <?php
     include("../InicioyRegistro/conexion.php");
     session_start();
@@ -88,6 +99,7 @@
                         <p class="card-text">
                             <?php echo $row["descripcion"]; ?>
                         </p>
+                        <h5>Calificacion segun usmtomatoes: <?php echo $row["calificacion_media_usmtomatoes"]?></h5>
                         <form action="../Peliculas/Perfil_peliculas.php" method="post" class="d-inline">
                             <input type="hidden" name="id_pelicula" value="<?php echo $row["id"]; ?>">
                             <input type="submit" name="detail" value="Ver Detalles">

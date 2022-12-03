@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,6 +44,9 @@
                 <label for="btn-menu">✖️</label>
             </div>
         </div>
+        <div class="user">
+            <a href="../Usuario/Perfil_main.php" style="text-decoration: none; color: black;"><h2 class="username"><?php echo"Bienvenido: ".$_SESSION['user_name']; ?></h2></a>
+        </div>
 
         <!-- search bar -->
         <form action="../Home/Home.php" method="post">
@@ -55,10 +61,14 @@
                 </button>
             </div>
         </form>
+
     </header>
+    <a href="../Peliculas/Top5mejoresusm.php">Top 5 mejores peliculas segun USMtomatoes</a>
+        <a href="../Peliculas/Top5peoresusm.php">Top 5 peores peliculas segun USMtomatoes</a>
+        <a href="../Peliculas/Pocasunidades.php">Pocas unidades!!</a>
+        <a href="../Usuario/Resenia_usuarios_seguidos.php">Reseñas usuarios seguidos</a>
 
     <?php
-    session_start();
     include("../InicioyRegistro/conexion.php");
     $sesion_id = $_SESSION['id'];
 

@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,6 +31,12 @@
             <h2 class=nombre-compañia>BlockbUSM</h2>
 
         </div>
+
+        <!--show the username<-->
+        <div class="user">
+            <a href="../Usuario/Perfil_main.php" style="text-decoration: none; color: black;"><h2 class="username"><?php echo"Bienvenido: ".$_SESSION['user_name']; ?></h2></a>
+        </div>
+
 
         <!--Barra de busqueda-->
         <!-- search bar -->
@@ -108,7 +117,6 @@
                         echo "No se encontraron resultados";
                     }
                 } else {
-                    session_start();
                     $query = "SELECT * FROM usuarios WHERE user_name LIKE '%{$_POST['search']}%' OR nombre LIKE '%{$_POST['search']}%'";
                     $result = mysqli_query($conexion, $query);
                     $queryResult = mysqli_num_rows($result);

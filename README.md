@@ -1,6 +1,6 @@
 # INF-239-php
 
-The final project is in <v1> branch.
+The final project is in [THIS](https://github.com/Rodrigo-Flores/INF-239-php/tree/v1) branch.
 
 ## Requirements
 1. XMAPP (the project was developed using this). From here you will start Apache and MySQL.
